@@ -1,0 +1,19 @@
+{
+  "name": "youtube-intelligence",
+  "version": "1.0.0",
+  "description": "YouTube Intelligence Processing System",
+  "main": "api/process.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "vercel build",
+    "deploy": "vercel --prod"
+  },
+  "dependencies": {
+    "sqlite3": "^5.1.6",
+    "sqlite": "^5.0.1",
+    "node-fetch": "^3.3.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

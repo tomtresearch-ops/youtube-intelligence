@@ -1,11 +1,21 @@
 {
-  "name": "youtube-intelligence",
+  "name": "visual-intelligence-system",
   "version": 2,
   "functions": {
     "api/process.js": {
       "runtime": "nodejs18.x",
       "memory": 1024,
       "maxDuration": 60
+    },
+    "api/search.js": {
+      "runtime": "nodejs18.x",
+      "memory": 512,
+      "maxDuration": 30
+    },
+    "api/batch.js": {
+      "runtime": "nodejs18.x",
+      "memory": 1024,
+      "maxDuration": 300
     }
   },
   "env": {
@@ -16,5 +26,15 @@
     "env": {
       "NODE_ENV": "production"
     }
-  }
+  },
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Access-Control-Allow-Methods", "value": "GET, POST, OPTIONS" },
+        { "key": "Access-Control-Allow-Headers", "value": "Content-Type" }
+      ]
+    }
+  ]
 }

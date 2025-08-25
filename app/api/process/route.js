@@ -764,6 +764,8 @@ EXTRACTION RULES:
 - Make it MORE valuable than reading the transcript
 - Focus on what's actionable and searchable
 - Every bullet point should contain SUBSTANTIAL intelligence, not just surface statements
+- IMPORTANT: Return ONLY simple strings in arrays, NOT objects or nested structures
+- Each array item should be a single, comprehensive string containing all the details
 
 Return ONLY valid JSON with no markdown formatting.`
     : `You are a knowledge extraction specialist. Your job is to extract and organize EVERY specific detail, framework, tool, prediction, and insight from this content into a structured, digestible format.
@@ -820,6 +822,8 @@ EXTRACTION RULES:
 - Make it MORE valuable than the original content
 - Focus on what's actionable and searchable
 - Every bullet point should contain SUBSTANTIAL intelligence, not just surface statements
+- IMPORTANT: Return ONLY simple strings in arrays, NOT objects or nested structures
+- Each array item should be a single, comprehensive string containing all the details
 
 Return ONLY valid JSON with no markdown formatting.`;
 

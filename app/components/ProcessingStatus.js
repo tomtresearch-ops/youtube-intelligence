@@ -96,8 +96,13 @@ export default function ProcessingStatus({ files, onForceReprocess, onDeleteFile
                               )}
                               <button
                                 onClick={() => {
-                                  if (confirm(`Delete "${file.name}" and all its extracted intelligence?`)) {
-                                    onDeleteFile(file);
+                                  try {
+                                    if (confirm(`Delete "${file.name}" and all its extracted intelligence?`)) {
+                                      onDeleteFile(file);
+                                    }
+                                  } catch (error) {
+                                    console.error('Delete error:', error);
+                                    alert('Error deleting file. Please try again.');
                                   }
                                 }}
                                 className="px-3 py-1 text-xs bg-red-600 hover:bg-red-700 text-white rounded-md transition-colors"

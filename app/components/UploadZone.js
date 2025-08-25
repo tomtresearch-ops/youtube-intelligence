@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef } from 'react'
-import { Upload, Camera, FileImage, AlertCircle } from 'lucide-react'
+import { Upload, Camera, FileImage, AlertCircle, Smartphone, BarChart3, FileText } from 'lucide-react'
 
 export default function UploadZone({ onFilesSelected }) {
   const [isDragOver, setIsDragOver] = useState(false)
@@ -61,22 +61,22 @@ export default function UploadZone({ onFilesSelected }) {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Upload Instructions */}
+    <div className="space-y-8">
+      {/* Main Title */}
       <div className="text-center">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">
-          Upload Screenshots
-        </h2>
-        <p className="text-gray-600 max-w-2xl mx-auto">
-          Upload screenshots of YouTube videos, whiteboards, charts, articles, or PDFs. 
-          Our AI will extract and organize the content to make it searchable.
+        <h1 className="text-4xl font-bold text-white mb-4">
+          Transform Screenshots into
+          <span className="block text-purple-400">Searchable Knowledge</span>
+        </h1>
+        <p className="text-slate-300 text-lg max-w-3xl mx-auto">
+          Upload iPhone screenshots of YouTube videos, whiteboards, or articles. AI extracts, summarizes, and organizes everything into your personal knowledge base.
         </p>
       </div>
 
-      {/* Upload Zone */}
+      {/* Capture Knowledge Zone */}
       <div
-        className={`mobile-upload-zone cursor-pointer transition-all duration-200 ${
-          isDragOver ? 'border-primary-500 bg-primary-50' : ''
+        className={`relative cursor-pointer transition-all duration-200 ${
+          isDragOver ? 'border-purple-400 bg-purple-900/20' : ''
         }`}
         onDragEnter={handleDragEnter}
         onDragLeave={handleDragLeave}
@@ -84,39 +84,48 @@ export default function UploadZone({ onFilesSelected }) {
         onDrop={handleDrop}
         onClick={openFileDialog}
       >
-        <input
-          ref={fileInputRef}
-          type="file"
-          multiple
-          accept="image/*"
-          onChange={handleFileSelect}
-          className="hidden"
-        />
-        
-        <div className="space-y-4">
-          <div className="flex justify-center">
-            <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center">
-              <Upload className="w-8 h-8 text-primary-600" />
-            </div>
-          </div>
+        <div className="border-2 border-dashed border-slate-600 rounded-xl p-12 bg-slate-800/30 hover:bg-slate-800/50 transition-colors">
+          <input
+            ref={fileInputRef}
+            type="file"
+            multiple
+            accept="image/*"
+            onChange={handleFileSelect}
+            className="hidden"
+          />
           
-          <div className="space-y-2">
-            <p className="text-lg font-medium text-gray-900">
-              Drop images here or tap to select
-            </p>
-            <p className="text-sm text-gray-500">
-              Support for iPhone screenshots, photos, and files up to 10MB
-            </p>
-          </div>
-          
-          <div className="flex justify-center space-x-4 text-sm text-gray-400">
-            <div className="flex items-center space-x-1">
-              <Camera className="w-4 h-4" />
-              <span>Camera</span>
+          <div className="space-y-6 text-center">
+            {/* Upload Icon */}
+            <div className="flex justify-center">
+              <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-blue-600 rounded-xl flex items-center justify-center">
+                <Upload className="w-10 h-10 text-white" />
+              </div>
             </div>
-            <div className="flex items-center space-x-1">
-              <FileImage className="w-4 h-4" />
-              <span>Gallery</span>
+            
+            {/* Title and Instructions */}
+            <div className="space-y-3">
+              <h2 className="text-2xl font-bold text-white">
+                Capture Knowledge
+              </h2>
+              <p className="text-slate-300 text-lg">
+                Drag & drop or tap to select multiple screenshots from your iPhone
+              </p>
+            </div>
+            
+            {/* Supported Content Types */}
+            <div className="flex justify-center space-x-8 text-sm text-slate-400">
+              <div className="flex items-center space-x-2">
+                <Smartphone className="w-4 h-4" />
+                <span>iPhone Screenshots</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <BarChart3 className="w-4 h-4" />
+                <span>Charts & Whiteboards</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <FileText className="w-4 h-4" />
+                <span>Articles & PDFs</span>
+              </div>
             </div>
           </div>
         </div>
@@ -124,35 +133,47 @@ export default function UploadZone({ onFilesSelected }) {
 
       {/* Error Message */}
       {error && (
-        <div className="flex items-center space-x-2 text-red-600 bg-red-50 border border-red-200 rounded-lg p-3">
+        <div className="flex items-center space-x-2 text-red-400 bg-red-900/20 border border-red-700/50 rounded-lg p-4">
           <AlertCircle className="w-5 h-5 flex-shrink-0" />
           <span className="text-sm">{error}</span>
         </div>
       )}
 
-      {/* Content Type Examples */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-        <div className="card">
-          <div className="flex items-center space-x-3 mb-3">
-            <div className="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center">
-              <FileImage className="w-4 h-4 text-red-600" />
+      {/* Feature Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+        <div className="bg-slate-800/50 rounded-xl p-6 border border-slate-700/50 hover:bg-slate-800/70 transition-colors">
+          <div className="flex items-center space-x-3 mb-4">
+            <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-blue-600 rounded-lg flex items-center justify-center">
+              <Upload className="w-6 h-6 text-white" />
             </div>
-            <h3 className="font-medium text-gray-900">YouTube Videos</h3>
+            <h3 className="font-semibold text-white text-lg">Batch Upload</h3>
           </div>
-          <p className="text-sm text-gray-600">
-            Screenshot any YouTube video to extract title, channel, get full transcript, and AI summary
+          <p className="text-slate-300 text-sm">
+            Select multiple screenshots for efficient processing
           </p>
         </div>
         
-        <div className="card">
-          <div className="flex items-center space-x-3 mb-3">
-            <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
-              <FileImage className="w-4 h-4 text-blue-600" />
+        <div className="bg-slate-800/50 rounded-xl p-6 border border-slate-700/50 hover:bg-slate-800/70 transition-colors">
+          <div className="flex items-center space-x-3 mb-4">
+            <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
+              <BarChart3 className="w-6 h-6 text-white" />
             </div>
-            <h3 className="font-medium text-gray-900">Visual Content</h3>
+            <h3 className="font-semibold text-white text-lg">AI Processing</h3>
           </div>
-          <p className="text-sm text-gray-600">
-            Charts, whiteboards, meeting notes, articles - converted to structured, searchable data
+          <p className="text-slate-300 text-sm">
+            Automatic extraction and NBLM-quality summarization
+          </p>
+        </div>
+
+        <div className="bg-slate-800/50 rounded-xl p-6 border border-slate-700/50 hover:bg-slate-800/70 transition-colors">
+          <div className="flex items-center space-x-3 mb-4">
+            <div className="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center">
+              <FileText className="w-6 h-6 text-white" />
+            </div>
+            <h3 className="font-semibold text-white text-lg">Instant Search</h3>
+          </div>
+          <p className="text-slate-300 text-sm">
+            Natural language queries across your knowledge base
           </p>
         </div>
       </div>

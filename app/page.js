@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useCallback } from 'react'
-import { Upload, Search, FileImage, Youtube, FileText, Loader2, CheckCircle, AlertCircle } from 'lucide-react'
+import { Upload, Search, FileImage, Youtube, FileText, Loader2, CheckCircle, AlertCircle, Brain, Zap, BarChart3 } from 'lucide-react'
 import UploadZone from './components/UploadZone'
 import SearchInterface from './components/SearchInterface'
 import ProcessingStatus from './components/ProcessingStatus'
@@ -102,20 +102,20 @@ export default function HomePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200">
+      <header className="bg-slate-800/50 backdrop-blur-sm border-b border-slate-700/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-primary-600 rounded-lg flex items-center justify-center">
-                <FileImage className="w-5 h-5 text-white" />
+              <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-blue-600 rounded-lg flex items-center justify-center">
+                <Brain className="w-5 h-5 text-white" />
               </div>
-              <h1 className="text-xl font-semibold text-gray-900">Visual Intelligence</h1>
+              <h1 className="text-xl font-semibold text-white">Knowledge Library</h1>
             </div>
-            <div className="flex items-center space-x-2 text-sm text-gray-500">
+            <div className="flex items-center space-x-2 text-sm text-slate-300">
               <div className="flex items-center space-x-1">
-                <CheckCircle className="w-4 h-4 text-green-500" />
+                <CheckCircle className="w-4 h-4 text-green-400" />
                 <span>{processingFiles.filter(f => f.status === 'completed').length} processed</span>
               </div>
             </div>
@@ -124,33 +124,46 @@ export default function HomePage() {
       </header>
 
       {/* Navigation Tabs */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-slate-800/30 border-b border-slate-700/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex space-x-8">
             <button
               onClick={() => setActiveTab('upload')}
-              className={`py-4 px-1 border-b-2 font-medium text-sm ${
+              className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
                 activeTab === 'upload'
-                  ? 'border-primary-500 text-primary-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  ? 'border-purple-500 text-purple-400'
+                  : 'border-transparent text-slate-400 hover:text-slate-300 hover:border-slate-600'
               }`}
             >
               <div className="flex items-center space-x-2">
                 <Upload className="w-4 h-4" />
-                <span>Upload</span>
+                <span>Capture</span>
               </div>
             </button>
             <button
               onClick={() => setActiveTab('search')}
-              className={`py-4 px-1 border-b-2 font-medium text-sm ${
+              className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
                 activeTab === 'search'
-                  ? 'border-primary-500 text-primary-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  ? 'border-purple-500 text-purple-400'
+                  : 'border-transparent text-slate-400 hover:text-slate-300 hover:border-slate-600'
               }`}
             >
               <div className="flex items-center space-x-2">
                 <Search className="w-4 h-4" />
-                <span>Search</span>
+                <span>Library</span>
+              </div>
+            </button>
+            <button
+              onClick={() => setActiveTab('stats')}
+              className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
+                activeTab === 'stats'
+                  ? 'border-purple-500 text-purple-400'
+                  : 'border-transparent text-slate-400 hover:text-slate-300 hover:border-slate-600'
+              }`}
+            >
+              <div className="flex items-center space-x-2">
+                <BarChart3 className="w-4 h-4" />
+                <span>Stats</span>
               </div>
             </button>
           </div>
@@ -174,6 +187,50 @@ export default function HomePage() {
             {searchResults.length > 0 && (
               <ContentGrid results={searchResults} />
             )}
+          </div>
+        )}
+
+        {activeTab === 'stats' && (
+          <div className="space-y-8">
+            <div className="text-center">
+              <h2 className="text-2xl font-bold text-white mb-2">Knowledge Stats</h2>
+              <p className="text-slate-400">Your second brain analytics</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="bg-slate-800/50 rounded-lg p-6 border border-slate-700/50">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-slate-400 text-sm">Total Knowledge</p>
+                    <p className="text-3xl font-bold text-white">0</p>
+                  </div>
+                  <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                    <Brain className="w-6 h-6 text-purple-400" />
+                  </div>
+                </div>
+              </div>
+              <div className="bg-slate-800/50 rounded-lg p-6 border border-slate-700/50">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-slate-400 text-sm">This Week</p>
+                    <p className="text-3xl font-bold text-white">0</p>
+                  </div>
+                  <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                    <BarChart3 className="w-6 h-6 text-blue-400" />
+                  </div>
+                </div>
+              </div>
+              <div className="bg-slate-800/50 rounded-lg p-6 border border-slate-700/50">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-slate-400 text-sm">Avg Confidence</p>
+                    <p className="text-3xl font-bold text-white">0%</p>
+                  </div>
+                  <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center">
+                    <Zap className="w-6 h-6 text-green-400" />
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         )}
       </main>

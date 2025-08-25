@@ -856,15 +856,57 @@ Return ONLY valid JSON with no markdown formatting.`;
   try {
     const analysisText = data.content[0].text;
     console.log('Raw analysis text length:', analysisText.length);
+    console.log('Raw analysis text preview:', analysisText.substring(0, 500));
     
-    // Extract JSON from response, handling potential markdown formatting
+    // Try multiple approaches to extract JSON
+    let parsedAnalysis = null;
+    
+    // Approach 1: Look for JSON between curly braces
     let jsonMatch = analysisText.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) {
-      console.error('No JSON found in analysis response');
-      throw new Error('No JSON found in analysis response');
+    if (jsonMatch) {
+      try {
+        parsedAnalysis = JSON.parse(jsonMatch[0]);
+        console.log('Successfully parsed JSON with approach 1');
+      } catch (e) {
+        console.log('Approach 1 failed, trying approach 2');
+      }
     }
     
-    const parsedAnalysis = JSON.parse(jsonMatch[0]);
+    // Approach 2: Look for JSON after "Return structured JSON" or similar
+    if (!parsedAnalysis) {
+      const jsonStart = analysisText.indexOf('{');
+      if (jsonStart !== -1) {
+        try {
+          const jsonText = analysisText.substring(jsonStart);
+          parsedAnalysis = JSON.parse(jsonText);
+          console.log('Successfully parsed JSON with approach 2');
+        } catch (e) {
+          console.log('Approach 2 failed, trying approach 3');
+        }
+      }
+    }
+    
+    // Approach 3: Try to clean up the text and find JSON
+    if (!parsedAnalysis) {
+      try {
+        // Remove markdown formatting and find JSON
+        const cleanedText = analysisText.replace(/```json\s*/g, '').replace(/```\s*$/g, '');
+        const jsonStart = cleanedText.indexOf('{');
+        if (jsonStart !== -1) {
+          const jsonText = cleanedText.substring(jsonStart);
+          parsedAnalysis = JSON.parse(jsonText);
+          console.log('Successfully parsed JSON with approach 3');
+        }
+      } catch (e) {
+        console.log('Approach 3 failed');
+      }
+    }
+    
+    if (!parsedAnalysis) {
+      console.error('All JSON parsing approaches failed');
+      throw new Error('Could not extract valid JSON from Claude response');
+    }
+    
     console.log('Parsed analysis structure:', Object.keys(parsedAnalysis));
     
     // Validate and ensure all required fields exist
@@ -884,16 +926,18 @@ Return ONLY valid JSON with no markdown formatting.`;
   } catch (e) {
     console.error('Failed to parse analysis response:', e);
     console.error('Raw response text:', data.content[0].text);
+    
+    // Return a more detailed fallback
     return {
-      core_thesis: 'Failed to generate enhanced analysis',
-      frameworks_extracted: [],
-      timelines_and_predictions: [],
-      tools_and_resources: [],
-      specific_numbers: [],
-      jobs_and_industries: [],
-      people_and_entities: [],
-      key_insights: [],
-      actionable_items: []
+      core_thesis: 'Analysis generation failed - JSON parsing error',
+      frameworks_extracted: ['Error: Could not parse Claude response'],
+      timelines_and_predictions: ['Error: Could not parse Claude response'],
+      tools_and_resources: ['Error: Could not parse Claude response'],
+      specific_numbers: ['Error: Could not parse Claude response'],
+      jobs_and_industries: ['Error: Could not parse Claude response'],
+      people_and_entities: ['Error: Could not parse Claude response'],
+      key_insights: ['Error: Could not parse Claude response'],
+      actionable_items: ['Error: Could not parse Claude response']
     };
   }
 }

@@ -966,7 +966,7 @@ Return ONLY valid JSON with no markdown formatting.`;
     },
     body: JSON.stringify({
       model: 'claude-3-5-sonnet-20241022',
-      max_tokens: 4000,
+      max_tokens: 8000, // Increased from 4000 to allow for detailed analysis
       messages: [{
         role: 'user',
         content: analysisPrompt
@@ -975,9 +975,54 @@ Return ONLY valid JSON with no markdown formatting.`;
   });
   
   const data = await response.json();
+  console.log('Claude analysis response:', data);
+  
+  if (data.error) {
+    console.error('Claude API error:', data.error);
+    throw new Error(`Claude API error: ${data.error.message || data.error}`);
+  }
+  
+  if (!data.content || !data.content[0] || !data.content[0].text) {
+    console.error('Unexpected Claude API response structure:', data);
+    throw new Error('Unexpected API response structure');
+  }
+  
   try {
-    return JSON.parse(data.content[0].text);
+    const analysisText = data.content[0].text;
+    console.log('Raw analysis text length:', analysisText.length);
+    
+    // Extract JSON from response, handling potential markdown formatting
+    let jsonMatch = analysisText.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) {
+      console.error('No JSON found in analysis response');
+      throw new Error('No JSON found in analysis response');
+    }
+    
+    const parsedAnalysis = JSON.parse(jsonMatch[0]);
+    console.log('Parsed analysis structure:', Object.keys(parsedAnalysis));
+    
+    // Validate and ensure all required fields exist
+    const validatedAnalysis = {
+      core_thesis: parsedAnalysis.core_thesis || 'Analysis incomplete',
+      named_frameworks_extracted: parsedAnalysis.named_frameworks_extracted || [],
+      all_numbers_and_data: parsedAnalysis.all_numbers_and_data || [],
+      extracted_intelligence: parsedAnalysis.extracted_intelligence || {},
+      detailed_breakdown: parsedAnalysis.detailed_breakdown || {},
+      critical_information: parsedAnalysis.critical_information || {},
+      entities_and_references: parsedAnalysis.entities_and_references || {},
+      intelligence_synthesis: parsedAnalysis.intelligence_synthesis || {},
+      consumption_value: parsedAnalysis.consumption_value || {},
+      executive_distillation: parsedAnalysis.executive_distillation || {
+        tldr: 'Analysis incomplete',
+        action_priority: 'Review content manually',
+        remember_this: 'Processing incomplete'
+      }
+    };
+    
+    return validatedAnalysis;
   } catch (e) {
+    console.error('Failed to parse analysis response:', e);
+    console.error('Raw response text:', data.content[0].text);
     return {
       core_thesis: 'Failed to generate enhanced analysis',
       named_frameworks_extracted: [],
@@ -1194,7 +1239,7 @@ async function processScreenshot(filename, imageBase64) {
         const analysis = await generateAnalysis(transcript, 'youtube', contentDetection.youtube_metadata);
         console.log('YouTube analysis completed');
         
-        // Store in database
+        // Store in database with FULL analysis structure
         const insertResult = await db.run(`
           INSERT INTO processed_content 
           (filename, content_type, video_url, title, channel, raw_transcript, 
@@ -1205,14 +1250,18 @@ async function processScreenshot(filename, imageBase64) {
           filename, 'youtube', videoMatch.url, videoMatch.title, videoMatch.channel,
           transcript, JSON.stringify(analysis), JSON.stringify(analysis.named_frameworks_extracted),
           JSON.stringify(analysis.all_numbers_and_data), JSON.stringify(analysis.entities_and_references?.people_mentioned || []),
-          videoMatch.score, processingCost, JSON.stringify(contentDetection)
+          videoMatch.score, processingCost, JSON.stringify({
+            ...contentDetection,
+            analysis_structure: Object.keys(analysis),
+            analysis_quality: 'enhanced'
+          })
         ]);
         
-        // Update search index
+        // Update search index with FULL analysis data
         await updateSearchIndex(db, insertResult.lastID, {
           title: videoMatch.title,
           channel: videoMatch.channel,
-          enhanced_summary: analysis.core_thesis,
+          enhanced_summary: JSON.stringify(analysis), // Store FULL analysis, not just core_thesis
           key_insights: JSON.stringify(analysis.named_frameworks_extracted),
           topics: JSON.stringify(analysis.all_numbers_and_data),
           people_mentioned: JSON.stringify(analysis.entities_and_references?.people_mentioned || []),
@@ -1250,7 +1299,7 @@ async function processScreenshot(filename, imageBase64) {
         { title: ocrResult.core_thesis }
       );
       
-      // Store in database
+      // Store in database with FULL analysis structure
       const insertResult = await db.run(`
         INSERT INTO processed_content 
         (filename, content_type, title, extracted_text, enhanced_summary, 
@@ -1261,13 +1310,17 @@ async function processScreenshot(filename, imageBase64) {
         filename, 'ocr', ocrResult.core_thesis, JSON.stringify(ocrResult),
         JSON.stringify(analysis), JSON.stringify(analysis.named_frameworks_extracted),
         JSON.stringify(analysis.all_numbers_and_data), JSON.stringify(analysis.entities_and_references?.people_mentioned || []),
-        contentDetection.confidence, processingCost, JSON.stringify(ocrResult)
+        contentDetection.confidence, processingCost, JSON.stringify({
+          ...ocrResult,
+          analysis_structure: Object.keys(analysis),
+          analysis_quality: 'enhanced'
+        })
       ]);
       
-      // Update search index
+      // Update search index with FULL analysis data
       await updateSearchIndex(db, insertResult.lastID, {
         title: ocrResult.core_thesis,
-        enhanced_summary: analysis.core_thesis,
+        enhanced_summary: JSON.stringify(analysis), // Store FULL analysis, not just core_thesis
         key_insights: JSON.stringify(analysis.named_frameworks_extracted),
         topics: JSON.stringify(analysis.all_numbers_and_data),
         people_mentioned: JSON.stringify(analysis.entities_and_references?.people_mentioned || []),

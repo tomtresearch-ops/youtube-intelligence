@@ -86,12 +86,15 @@ export async function POST(request) {
     // Process and format results
     const formattedResults = searchResults.map(result => {
       try {
-        // Parse the enhanced analysis data
+        // Parse the enhanced analysis data - now stored as full JSON
         const enhancedData = JSON.parse(result.enhanced_summary || '{}');
         const keyInsights = JSON.parse(result.key_insights || '[]');
         const topics = JSON.parse(result.topics || '[]');
         const peopleMentioned = JSON.parse(result.people_mentioned || '[]');
         const metadata = JSON.parse(result.metadata || '{}');
+        
+        // Check if enhancedData is the full analysis or just core_thesis
+        const isFullAnalysis = enhancedData.core_thesis && enhancedData.named_frameworks_extracted;
         
         return {
           id: result.id,
@@ -101,9 +104,9 @@ export async function POST(request) {
           contentType: result.content_type,
           summary: enhancedData.core_thesis || 'No summary available',
           tldr: enhancedData.executive_distillation?.tldr || '',
-          insights: keyInsights || [],
-          topics: topics || [],
-          peopleMentioned: peopleMentioned || [],
+          insights: enhancedData.named_frameworks_extracted || keyInsights || [],
+          topics: enhancedData.all_numbers_and_data || topics || [],
+          peopleMentioned: enhancedData.entities_and_references?.people_mentioned || peopleMentioned || [],
           date: result.processed_date,
           confidence: result.confidence_score,
           frameworks: enhancedData.named_frameworks_extracted || [],
@@ -112,7 +115,20 @@ export async function POST(request) {
           tools: enhancedData.extracted_intelligence?.tools_and_resources || [],
           predictions: enhancedData.intelligence_synthesis?.future_predictions || [],
           actionPriority: enhancedData.executive_distillation?.action_priority || '',
-          rememberThis: enhancedData.executive_distillation?.remember_this || ''
+          rememberThis: enhancedData.executive_distillation?.remember_this || '',
+          // Additional rich data fields
+          contrarianPositions: enhancedData.critical_information?.contrarian_positions || [],
+          importantDistinctions: enhancedData.critical_information?.important_distinctions || [],
+          notableClaims: enhancedData.critical_information?.notable_claims || [],
+          supportingEvidence: enhancedData.detailed_breakdown?.supporting_evidence || [],
+          methodologyExplained: enhancedData.detailed_breakdown?.methodology_explained || [],
+          connectionsMade: enhancedData.intelligence_synthesis?.connections_made || [],
+          implicationsAnalysis: enhancedData.intelligence_synthesis?.implications_analysis || [],
+          whyThisMatters: enhancedData.consumption_value?.why_this_matters || '',
+          keyCompetitiveAdvantage: enhancedData.consumption_value?.key_competitive_advantage || '',
+          decisionSupport: enhancedData.consumption_value?.decision_support || '',
+          // Analysis quality indicator
+          analysisQuality: metadata.analysis_quality || 'standard'
         };
       } catch (parseError) {
         console.error('Error parsing result data:', parseError);
@@ -135,7 +151,18 @@ export async function POST(request) {
           tools: [],
           predictions: [],
           actionPriority: '',
-          rememberThis: ''
+          rememberThis: '',
+          contrarianPositions: [],
+          importantDistinctions: [],
+          notableClaims: [],
+          supportingEvidence: [],
+          methodologyExplained: [],
+          connectionsMade: [],
+          implicationsAnalysis: [],
+          whyThisMatters: '',
+          keyCompetitiveAdvantage: '',
+          decisionSupport: '',
+          analysisQuality: 'error'
         };
       }
     });

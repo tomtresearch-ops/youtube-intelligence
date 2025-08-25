@@ -263,6 +263,188 @@ export default function ContentGrid({ results }) {
                 </div>
               )}
 
+              {/* Critical Information */}
+              {(result.contrarianPositions && result.contrarianPositions.length > 0) || 
+               (result.importantDistinctions && result.importantDistinctions.length > 0) || 
+               (result.notableClaims && result.notableClaims.length > 0) && (
+                <div className="space-y-3">
+                  <button
+                    onClick={() => toggleSection(result.id || index, 'critical')}
+                    className="flex items-center space-x-2 w-full text-left hover:bg-slate-700/30 rounded-lg p-2 transition-colors"
+                  >
+                    {expandedSections[`${result.id || index}-critical`] ? (
+                      <ChevronDown className="w-5 h-5 text-red-400" />
+                    ) : (
+                      <ChevronRight className="w-5 h-5 text-red-400" />
+                    )}
+                    <AlertTriangle className="w-5 h-5 text-red-400" />
+                    <h5 className="text-md font-semibold text-white">Critical Information</h5>
+                  </button>
+                  {expandedSections[`${result.id || index}-critical`] && (
+                    <div className="space-y-3 pl-7">
+                      {result.contrarianPositions && result.contrarianPositions.length > 0 && (
+                        <div>
+                          <h6 className="text-sm font-medium text-red-400 mb-2">Contrarian Positions</h6>
+                          <div className="space-y-2">
+                            {result.contrarianPositions.slice(0, 3).map((position, posIndex) => (
+                              <div key={posIndex} className="bg-slate-700/30 rounded-lg p-3 border-l-4 border-red-500">
+                                <span className="text-slate-200 text-sm">{position}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      {result.notableClaims && result.notableClaims.length > 0 && (
+                        <div>
+                          <h6 className="text-sm font-medium text-red-400 mb-2">Notable Claims</h6>
+                          <div className="space-y-2">
+                            {result.notableClaims.slice(0, 3).map((claim, claimIndex) => (
+                              <div key={claimIndex} className="bg-slate-700/30 rounded-lg p-3 border-l-4 border-red-500">
+                                <span className="text-slate-200 text-sm">{claim}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Supporting Evidence & Methodology */}
+              {(result.supportingEvidence && result.supportingEvidence.length > 0) || 
+               (result.methodologyExplained && result.methodologyExplained.length > 0) && (
+                <div className="space-y-3">
+                  <button
+                    onClick={() => toggleSection(result.id || index, 'evidence')}
+                    className="flex items-center space-x-2 w-full text-left hover:bg-slate-700/30 rounded-lg p-2 transition-colors"
+                  >
+                    {expandedSections[`${result.id || index}-evidence`] ? (
+                      <ChevronDown className="w-5 h-5 text-indigo-400" />
+                    ) : (
+                      <ChevronRight className="w-5 h-5 text-indigo-400" />
+                    )}
+                    <Target className="w-5 h-5 text-indigo-400" />
+                    <h5 className="text-md font-semibold text-white">Supporting Evidence & Methodology</h5>
+                  </button>
+                  {expandedSections[`${result.id || index}-evidence`] && (
+                    <div className="space-y-3 pl-7">
+                      {result.supportingEvidence && result.supportingEvidence.length > 0 && (
+                        <div>
+                          <h6 className="text-sm font-medium text-indigo-400 mb-2">Supporting Evidence</h6>
+                          <div className="space-y-2">
+                            {result.supportingEvidence.slice(0, 3).map((evidence, evIndex) => (
+                              <div key={evIndex} className="bg-slate-700/30 rounded-lg p-3 border-l-4 border-indigo-500">
+                                <span className="text-slate-200 text-sm">{evidence}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      {result.methodologyExplained && result.methodologyExplained.length > 0 && (
+                        <div>
+                          <h6 className="text-sm font-medium text-indigo-400 mb-2">Methodology</h6>
+                          <div className="space-y-2">
+                            {result.methodologyExplained.slice(0, 3).map((method, methodIndex) => (
+                              <div key={methodIndex} className="bg-slate-700/30 rounded-lg p-3 border-l-4 border-indigo-500">
+                                <span className="text-slate-200 text-sm">{method}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Intelligence Synthesis */}
+              {(result.connectionsMade && result.connectionsMade.length > 0) || 
+               (result.implicationsAnalysis && result.implicationsAnalysis.length > 0) && (
+                <div className="space-y-3">
+                  <button
+                    onClick={() => toggleSection(result.id || index, 'synthesis')}
+                    className="flex items-center space-x-2 w-full text-left hover:bg-slate-700/30 rounded-lg p-2 transition-colors"
+                  >
+                    {expandedSections[`${result.id || index}-synthesis`] ? (
+                      <ChevronDown className="w-5 h-5 text-purple-400" />
+                    ) : (
+                      <ChevronRight className="w-5 h-5 text-purple-400" />
+                    )}
+                    <Brain className="w-5 h-5 text-purple-400" />
+                    <h5 className="text-md font-semibold text-white">Intelligence Synthesis</h5>
+                  </button>
+                  {expandedSections[`${result.id || index}-synthesis`] && (
+                    <div className="space-y-3 pl-7">
+                      {result.connectionsMade && result.connectionsMade.length > 0 && (
+                        <div>
+                          <h6 className="text-sm font-medium text-purple-400 mb-2">Connections Made</h6>
+                          <div className="space-y-2">
+                            {result.connectionsMade.slice(0, 3).map((connection, connIndex) => (
+                              <div key={connIndex} className="bg-slate-700/30 rounded-lg p-3 border-l-4 border-purple-500">
+                                <span className="text-slate-200 text-sm">{connection}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      {result.implicationsAnalysis && result.implicationsAnalysis.length > 0 && (
+                        <div>
+                          <h6 className="text-sm font-medium text-purple-400 mb-2">Implications Analysis</h6>
+                          <div className="space-y-2">
+                            {result.implicationsAnalysis.slice(0, 3).map((implication, impIndex) => (
+                              <div key={impIndex} className="bg-slate-700/30 rounded-lg p-3 border-l-4 border-purple-500">
+                                <span className="text-slate-200 text-sm">{implication}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Consumption Value */}
+              {(result.whyThisMatters || result.keyCompetitiveAdvantage || result.decisionSupport) && (
+                <div className="space-y-3">
+                  <button
+                    onClick={() => toggleSection(result.id || index, 'value')}
+                    className="flex items-center space-x-2 w-full text-left hover:bg-slate-700/30 rounded-lg p-2 transition-colors"
+                  >
+                    {expandedSections[`${result.id || index}-value`] ? (
+                      <ChevronDown className="w-5 h-5 text-emerald-400" />
+                    ) : (
+                      <ChevronRight className="w-5 h-5 text-emerald-400" />
+                    )}
+                    <Lightbulb className="w-5 h-5 text-emerald-400" />
+                    <h5 className="text-md font-semibold text-white">Why This Matters</h5>
+                  </button>
+                  {expandedSections[`${result.id || index}-value`] && (
+                    <div className="space-y-3 pl-7">
+                      {result.whyThisMatters && (
+                        <div className="bg-slate-700/30 rounded-lg p-3 border-l-4 border-emerald-500">
+                          <p className="text-sm font-medium text-emerald-400 mb-1">Why This Matters</p>
+                          <p className="text-slate-200 text-sm">{result.whyThisMatters}</p>
+                        </div>
+                      )}
+                      {result.keyCompetitiveAdvantage && (
+                        <div className="bg-slate-700/30 rounded-lg p-3 border-l-4 border-emerald-500">
+                          <p className="text-sm font-medium text-emerald-400 mb-1">Key Competitive Advantage</p>
+                          <p className="text-slate-200 text-sm">{result.keyCompetitiveAdvantage}</p>
+                        </div>
+                      )}
+                      {result.decisionSupport && (
+                        <div className="bg-slate-700/30 rounded-lg p-3 border-l-4 border-emerald-500">
+                          <p className="text-sm font-medium text-emerald-400 mb-1">Decision Support</p>
+                          <p className="text-slate-200 text-sm">{result.decisionSupport}</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
+
               {/* Metadata */}
               <div className="flex items-center justify-between pt-4 border-t border-slate-700/50">
                 <div className="flex items-center space-x-4 text-xs text-slate-400">

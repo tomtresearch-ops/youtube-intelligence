@@ -929,19 +929,14 @@ Return ONLY valid JSON with no markdown formatting.`;
     // Validate and ensure all required fields exist
     const validatedAnalysis = {
       core_thesis: parsedAnalysis.core_thesis || 'Analysis incomplete',
-      named_frameworks_extracted: parsedAnalysis.named_frameworks_extracted || [],
-      all_numbers_and_data: parsedAnalysis.all_numbers_and_data || [],
-      extracted_intelligence: parsedAnalysis.extracted_intelligence || {},
-      detailed_breakdown: parsedAnalysis.detailed_breakdown || {},
-      critical_information: parsedAnalysis.critical_information || {},
-      entities_and_references: parsedAnalysis.entities_and_references || {},
-      intelligence_synthesis: parsedAnalysis.intelligence_synthesis || {},
-      consumption_value: parsedAnalysis.consumption_value || {},
-      executive_distillation: parsedAnalysis.executive_distillation || {
-        tldr: 'Analysis incomplete',
-        action_priority: 'Review content manually',
-        remember_this: 'Processing incomplete'
-      }
+      frameworks_extracted: parsedAnalysis.frameworks_extracted || [],
+      timelines_and_predictions: parsedAnalysis.timelines_and_predictions || [],
+      tools_and_resources: parsedAnalysis.tools_and_resources || [],
+      specific_numbers: parsedAnalysis.specific_numbers || [],
+      jobs_and_industries: parsedAnalysis.jobs_and_industries || [],
+      people_and_entities: parsedAnalysis.people_and_entities || [],
+      key_insights: parsedAnalysis.key_insights || [],
+      actionable_items: parsedAnalysis.actionable_items || []
     };
     
     return validatedAnalysis;
@@ -950,19 +945,14 @@ Return ONLY valid JSON with no markdown formatting.`;
     console.error('Raw response text:', data.content[0].text);
     return {
       core_thesis: 'Failed to generate enhanced analysis',
-      named_frameworks_extracted: [],
-      all_numbers_and_data: [],
-      extracted_intelligence: {},
-      detailed_breakdown: {},
-      critical_information: {},
-      entities_and_references: {},
-      intelligence_synthesis: {},
-      consumption_value: {},
-      executive_distillation: {
-        tldr: 'Analysis generation failed',
-        action_priority: 'Review content manually',
-        remember_this: 'Processing error occurred'
-      }
+      frameworks_extracted: [],
+      timelines_and_predictions: [],
+      tools_and_resources: [],
+      specific_numbers: [],
+      jobs_and_industries: [],
+      people_and_entities: [],
+      key_insights: [],
+      actionable_items: []
     };
   }
 }

@@ -91,8 +91,8 @@ export default function ContentGrid({ results }) {
                 </div>
               )}
 
-              {/* TL;DR - Always Visible */}
-              {result.tldr && (
+              {/* TL;DR - Show if available */}
+              {(result.tldr && result.tldr !== result.summary) && (
                 <div className="space-y-3">
                   <div className="flex items-center space-x-2">
                     <Zap className="w-5 h-5 text-yellow-400" />
@@ -104,38 +104,26 @@ export default function ContentGrid({ results }) {
                 </div>
               )}
 
-              {/* Collapsible Sections */}
-              
-              {/* Key Insights Grid */}
-              {result.insights && result.insights.length > 0 && (
+              {/* Key Insights - Show if available */}
+              {result.keyInsights && result.keyInsights.length > 0 && (
                 <div className="space-y-3">
-                  <button
-                    onClick={() => toggleSection(result.id || index, 'insights')}
-                    className="flex items-center space-x-2 w-full text-left hover:bg-slate-700/30 rounded-lg p-2 transition-colors"
-                  >
-                    {expandedSections[`${result.id || index}-insights`] ? (
-                      <ChevronDown className="w-5 h-5 text-blue-400" />
-                    ) : (
-                      <ChevronRight className="w-5 h-5 text-blue-400" />
-                    )}
+                  <div className="flex items-center space-x-2">
                     <Lightbulb className="w-5 h-5 text-blue-400" />
-                    <h5 className="text-md font-semibold text-white">Key Insights ({result.insights.length})</h5>
-                  </button>
-                  {expandedSections[`${result.id || index}-insights`] && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pl-7">
-                      {result.insights.slice(0, 6).map((insight, insightIndex) => (
-                        <div
-                          key={insightIndex}
-                          className="bg-slate-700/30 rounded-lg p-3 border border-slate-600/50"
-                        >
-                          <div className="flex items-start space-x-2">
-                            <span className="text-blue-400 mt-1">•</span>
-                            <span className="text-slate-200 text-sm leading-relaxed">{insight}</span>
-                          </div>
+                    <h5 className="text-md font-semibold text-white">Key Insights ({result.keyInsights.length})</h5>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {result.keyInsights.slice(0, 6).map((insight, insightIndex) => (
+                      <div
+                        key={insightIndex}
+                        className="bg-slate-700/30 rounded-lg p-3 border border-slate-600/50"
+                      >
+                        <div className="flex items-start space-x-2">
+                          <span className="text-blue-400 mt-1">•</span>
+                          <span className="text-slate-200 text-sm leading-relaxed">{insight}</span>
                         </div>
-                      ))}
-                    </div>
-                  )}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               )}
 

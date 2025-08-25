@@ -2,7 +2,7 @@
 
 import { Loader2, CheckCircle, AlertCircle, FileImage, Brain, Target, TrendingUp, Clock, Users, BarChart3, Lightbulb, Zap, AlertTriangle } from 'lucide-react'
 
-export default function ProcessingStatus({ files, onForceReprocess }) {
+export default function ProcessingStatus({ files, onForceReprocess, onDeleteFile }) {
   // Helper function to safely render array data
   const renderArrayData = (data, title, icon, maxItems = 5) => {
     if (!data || !Array.isArray(data) || data.length === 0) return null;
@@ -84,15 +84,28 @@ export default function ProcessingStatus({ files, onForceReprocess }) {
                       {file.result?.contentType === 'youtube' ? '🎬 YouTube Video' : '📄 Document/Image'} • 
                       Enhanced Intelligence Extraction Complete
                     </p>
-                    {onForceReprocess && (
-                      <button
-                        onClick={() => onForceReprocess(file)}
-                        className="px-3 py-1 text-xs bg-purple-600 hover:bg-purple-700 text-white rounded-md transition-colors"
-                        title="Force reprocess this file"
-                      >
-                        🔄 Reprocess
-                      </button>
-                    )}
+                                                <div className="flex space-x-2">
+                              {onForceReprocess && (
+                                <button
+                                  onClick={() => onForceReprocess(file)}
+                                  className="px-3 py-1 text-xs bg-purple-600 hover:bg-purple-700 text-white rounded-md transition-colors"
+                                  title="Force reprocess this file"
+                                >
+                                  🔄 Reprocess
+                                </button>
+                              )}
+                              <button
+                                onClick={() => {
+                                  if (confirm(`Delete "${file.name}" and all its extracted intelligence?`)) {
+                                    onDeleteFile(file);
+                                  }
+                                }}
+                                className="px-3 py-1 text-xs bg-red-600 hover:bg-red-700 text-white rounded-md transition-colors"
+                                title="Delete this file and its analysis"
+                              >
+                                🗑️ Delete
+                              </button>
+                            </div>
                   </div>
                 )}
               </div>

@@ -167,6 +167,26 @@ export default function HomePage() {
     processFile(fileInfo, true) // Force reprocess
   }
 
+  const handleDeleteFile = async (file) => {
+    console.log('Deleting file:', file.name);
+    
+    try {
+      // Remove from processing files
+      setProcessingFiles(prev => prev.filter(f => f.id !== file.id));
+      
+      // Remove from search results
+      setSearchResults(prev => prev.filter(f => f.filename !== file.name));
+      
+      // Clear search if this was the only result
+      if (searchResults.length === 1) {
+        setSearchQuery('');
+      }
+      
+    } catch (error) {
+      console.error('Error deleting file:', error);
+    }
+  };
+
   const fileToBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader()
@@ -270,7 +290,7 @@ export default function HomePage() {
           <div className="space-y-8">
             <UploadZone onFilesSelected={handleFilesSelected} />
             {processingFiles.length > 0 && (
-              <ProcessingStatus files={processingFiles} onForceReprocess={handleForceReprocess} />
+                              <ProcessingStatus files={processingFiles} onForceReprocess={handleForceReprocess} onDeleteFile={handleDeleteFile} />
             )}
           </div>
         )}

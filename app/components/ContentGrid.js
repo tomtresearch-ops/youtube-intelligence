@@ -152,16 +152,16 @@ export default function ContentGrid({ results }) {
                       <ChevronRight className="w-5 h-5 text-green-400" />
                     )}
                     <Target className="w-5 h-5 text-green-400" />
-                    <h5 className="text-md font-semibold text-white">Frameworks & Methods ({result.frameworks.length})</h5>
+                    <h5 className="text-md font-semibold text-white">Frameworks & Systems ({result.frameworks.length})</h5>
                   </button>
                   {expandedSections[`${result.id || index}-frameworks`] && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 pl-7">
-                      {result.frameworks.slice(0, 4).map((framework, frameworkIndex) => (
+                    <div className="space-y-2 pl-7">
+                      {result.frameworks.slice(0, 6).map((framework, frameworkIndex) => (
                         <div
                           key={frameworkIndex}
-                          className="bg-slate-700/30 rounded-lg p-2 border border-slate-600/50"
+                          className="bg-slate-700/30 rounded-lg p-3 border border-slate-600/50"
                         >
-                          <span className="text-slate-200 text-sm">{framework}</span>
+                          <span className="text-slate-200 text-sm leading-relaxed">{framework}</span>
                         </div>
                       ))}
                     </div>
@@ -169,59 +169,29 @@ export default function ContentGrid({ results }) {
                 </div>
               )}
 
-              {/* Key Numbers & Data */}
-              {result.numbers && result.numbers.length > 0 && (
+              {/* Timelines & Predictions */}
+              {result.timelines && result.timelines.length > 0 && (
                 <div className="space-y-3">
                   <button
-                    onClick={() => toggleSection(result.id || index, 'numbers')}
+                    onClick={() => toggleSection(result.id || index, 'timelines')}
                     className="flex items-center space-x-2 w-full text-left hover:bg-slate-700/30 rounded-lg p-2 transition-colors"
                   >
-                    {expandedSections[`${result.id || index}-numbers`] ? (
-                      <ChevronDown className="w-5 h-5 text-red-400" />
-                    ) : (
-                      <ChevronRight className="w-5 h-5 text-red-400" />
-                    )}
-                    <BarChart3 className="w-5 h-5 text-red-400" />
-                    <h5 className="text-md font-semibold text-white">Key Numbers & Data ({result.numbers.length})</h5>
-                  </button>
-                  {expandedSections[`${result.id || index}-numbers`] && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 pl-7">
-                      {result.numbers.slice(0, 6).map((number, numberIndex) => (
-                        <div
-                          key={numberIndex}
-                          className="bg-slate-700/30 rounded-lg p-2 border border-slate-600/50"
-                        >
-                          <span className="text-slate-200 text-sm">{number}</span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {/* Future Predictions */}
-              {result.predictions && result.predictions.length > 0 && (
-                <div className="space-y-3">
-                  <button
-                    onClick={() => toggleSection(result.id || index, 'predictions')}
-                    className="flex items-center space-x-2 w-full text-left hover:bg-slate-700/30 rounded-lg p-2 transition-colors"
-                  >
-                    {expandedSections[`${result.id || index}-predictions`] ? (
+                    {expandedSections[`${result.id || index}-timelines`] ? (
                       <ChevronDown className="w-5 h-5 text-orange-400" />
                     ) : (
                       <ChevronRight className="w-5 h-5 text-orange-400" />
                     )}
                     <TrendingUp className="w-5 h-5 text-orange-400" />
-                    <h5 className="text-md font-semibold text-white">Future Predictions ({result.predictions.length})</h5>
+                    <h5 className="text-md font-semibold text-white">Timelines & Predictions ({result.timelines.length})</h5>
                   </button>
-                  {expandedSections[`${result.id || index}-predictions`] && (
+                  {expandedSections[`${result.id || index}-timelines`] && (
                     <div className="space-y-2 pl-7">
-                      {result.predictions.slice(0, 3).map((prediction, predictionIndex) => (
+                      {result.timelines.slice(0, 6).map((timeline, timelineIndex) => (
                         <div
-                          key={predictionIndex}
+                          key={timelineIndex}
                           className="bg-slate-700/30 rounded-lg p-3 border-l-4 border-orange-500"
                         >
-                          <span className="text-slate-200 text-sm">{prediction}</span>
+                          <span className="text-slate-200 text-sm leading-relaxed">{timeline}</span>
                         </div>
                       ))}
                     </div>
@@ -229,8 +199,68 @@ export default function ContentGrid({ results }) {
                 </div>
               )}
 
-              {/* Action Items */}
-              {(result.actionPriority || result.rememberThis) && (
+              {/* Tools & Resources */}
+              {result.tools && result.tools.length > 0 && (
+                <div className="space-y-3">
+                  <button
+                    onClick={() => toggleSection(result.id || index, 'tools')}
+                    className="flex items-center space-x-2 w-full text-left hover:bg-slate-700/30 rounded-lg p-2 transition-colors"
+                  >
+                    {expandedSections[`${result.id || index}-tools`] ? (
+                      <ChevronDown className="w-5 h-5 text-blue-400" />
+                    ) : (
+                      <ChevronRight className="w-5 h-5 text-blue-400" />
+                    )}
+                    <Zap className="w-5 h-5 text-blue-400" />
+                    <h5 className="text-md font-semibold text-white">Tools & Resources ({result.tools.length})</h5>
+                  </button>
+                  {expandedSections[`${result.id || index}-tools`] && (
+                    <div className="space-y-2 pl-7">
+                      {result.tools.slice(0, 6).map((tool, toolIndex) => (
+                        <div
+                          key={toolIndex}
+                          className="bg-slate-700/30 rounded-lg p-3 border-l-4 border-blue-500"
+                        >
+                          <span className="text-slate-200 text-sm leading-relaxed">{tool}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Jobs & Industries */}
+              {result.jobs && result.jobs.length > 0 && (
+                <div className="space-y-3">
+                  <button
+                    onClick={() => toggleSection(result.id || index, 'jobs')}
+                    className="flex items-center space-x-2 w-full text-left hover:bg-slate-700/30 rounded-lg p-2 transition-colors"
+                  >
+                    {expandedSections[`${result.id || index}-jobs`] ? (
+                      <ChevronDown className="w-5 h-5 text-purple-400" />
+                    ) : (
+                      <ChevronRight className="w-5 h-5 text-purple-400" />
+                    )}
+                    <Users className="w-5 h-5 text-purple-400" />
+                    <h5 className="text-md font-semibold text-white">Jobs & Industries ({result.jobs.length})</h5>
+                  </button>
+                  {expandedSections[`${result.id || index}-jobs`] && (
+                    <div className="space-y-2 pl-7">
+                      {result.jobs.slice(0, 6).map((job, jobIndex) => (
+                        <div
+                          key={jobIndex}
+                          className="bg-slate-700/30 rounded-lg p-3 border-l-4 border-purple-500"
+                        >
+                          <span className="text-slate-200 text-sm leading-relaxed">{job}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Actionable Items */}
+              {result.actionableItems && result.actionableItems.length > 0 && (
                 <div className="space-y-3">
                   <button
                     onClick={() => toggleSection(result.id || index, 'actions')}
@@ -242,22 +272,18 @@ export default function ContentGrid({ results }) {
                       <ChevronRight className="w-5 h-5 text-yellow-400" />
                     )}
                     <AlertTriangle className="w-5 h-5 text-yellow-400" />
-                    <h5 className="text-md font-semibold text-white">Action Items</h5>
+                    <h5 className="text-md font-semibold text-white">Actionable Items ({result.actionableItems.length})</h5>
                   </button>
                   {expandedSections[`${result.id || index}-actions`] && (
                     <div className="space-y-2 pl-7">
-                      {result.actionPriority && (
-                        <div className="bg-slate-700/30 rounded-lg p-3 border-l-4 border-yellow-500">
-                          <p className="text-sm font-medium text-yellow-400 mb-1">Action Priority</p>
-                          <p className="text-slate-200 text-sm">{result.actionPriority}</p>
+                      {result.actionableItems.slice(0, 6).map((action, actionIndex) => (
+                        <div
+                          key={actionIndex}
+                          className="bg-slate-700/30 rounded-lg p-3 border-l-4 border-yellow-500"
+                        >
+                          <span className="text-slate-200 text-sm leading-relaxed">{action}</span>
                         </div>
-                      )}
-                      {result.rememberThis && (
-                        <div className="bg-slate-700/30 rounded-lg p-3 border-l-4 border-yellow-500">
-                          <p className="text-sm font-medium text-yellow-400 mb-1">Remember This</p>
-                          <p className="text-slate-200 text-sm">{result.rememberThis}</p>
-                        </div>
-                      )}
+                      ))}
                     </div>
                   )}
                 </div>

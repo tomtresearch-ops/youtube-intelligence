@@ -94,7 +94,7 @@ export async function POST(request) {
         const metadata = JSON.parse(result.metadata || '{}');
         
         // Check if enhancedData is the full analysis or just core_thesis
-        const isFullAnalysis = enhancedData.core_thesis && enhancedData.named_frameworks_extracted;
+        const isFullAnalysis = enhancedData.core_thesis && enhancedData.frameworks_extracted;
         
         return {
           id: result.id,
@@ -103,30 +103,26 @@ export async function POST(request) {
           url: result.video_url,
           contentType: result.content_type,
           summary: enhancedData.core_thesis || 'No summary available',
-          tldr: enhancedData.executive_distillation?.tldr || '',
-          insights: enhancedData.named_frameworks_extracted || keyInsights || [],
-          topics: enhancedData.all_numbers_and_data || topics || [],
-          peopleMentioned: enhancedData.entities_and_references?.people_mentioned || peopleMentioned || [],
+          tldr: enhancedData.core_thesis || '',
+          insights: enhancedData.frameworks_extracted || keyInsights || [],
+          topics: enhancedData.timelines_and_predictions || topics || [],
+          peopleMentioned: enhancedData.people_and_entities || peopleMentioned || [],
           date: result.processed_date,
           confidence: result.confidence_score,
-          frameworks: enhancedData.named_frameworks_extracted || [],
-          numbers: enhancedData.all_numbers_and_data || [],
-          methods: enhancedData.extracted_intelligence?.specific_methods || [],
-          tools: enhancedData.extracted_intelligence?.tools_and_resources || [],
-          predictions: enhancedData.intelligence_synthesis?.future_predictions || [],
-          actionPriority: enhancedData.executive_distillation?.action_priority || '',
-          rememberThis: enhancedData.executive_distillation?.remember_this || '',
-          // Additional rich data fields
-          contrarianPositions: enhancedData.critical_information?.contrarian_positions || [],
-          importantDistinctions: enhancedData.critical_information?.important_distinctions || [],
-          notableClaims: enhancedData.critical_information?.notable_claims || [],
-          supportingEvidence: enhancedData.detailed_breakdown?.supporting_evidence || [],
-          methodologyExplained: enhancedData.detailed_breakdown?.methodology_explained || [],
-          connectionsMade: enhancedData.intelligence_synthesis?.connections_made || [],
-          implicationsAnalysis: enhancedData.intelligence_synthesis?.implications_analysis || [],
-          whyThisMatters: enhancedData.consumption_value?.why_this_matters || '',
-          keyCompetitiveAdvantage: enhancedData.consumption_value?.key_competitive_advantage || '',
-          decisionSupport: enhancedData.consumption_value?.decision_support || '',
+          frameworks: enhancedData.frameworks_extracted || [],
+          numbers: enhancedData.specific_numbers || [],
+          methods: enhancedData.frameworks_extracted || [],
+          tools: enhancedData.tools_and_resources || [],
+          predictions: enhancedData.timelines_and_predictions || [],
+          actionPriority: enhancedData.actionable_items?.[0] || '',
+          rememberThis: enhancedData.key_insights?.[0] || '',
+          // Additional rich data fields from new structure
+          timelines: enhancedData.timelines_and_predictions || [],
+          tools: enhancedData.tools_and_resources || [],
+          jobs: enhancedData.jobs_and_industries || [],
+          entities: enhancedData.people_and_entities || [],
+          actionableItems: enhancedData.actionable_items || [],
+          keyInsights: enhancedData.key_insights || [],
           // Analysis quality indicator
           analysisQuality: metadata.analysis_quality || 'standard'
         };

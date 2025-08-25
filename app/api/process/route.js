@@ -715,245 +715,170 @@ Note: Full transcript not available, but video metadata indicates this is the co
   }
 }
 
-// Generate enhanced analysis using Claude with OBSESSIVE extraction
+// Generate enhanced analysis using Claude with OBSESSIVE extraction prompts
 async function generateAnalysis(content, contentType, metadata = {}) {
   const isYoutube = contentType === 'youtube';
   
   const analysisPrompt = isYoutube 
-    ? `You are an obsessive intelligence extraction specialist. Your ONLY job is to find and extract EVERY specific detail, framework, number, name, and concept from this transcript. Miss NOTHING.
+    ? `You are a knowledge extraction specialist. Your job is to extract and organize EVERY specific detail, framework, tool, prediction, and insight from this transcript into a structured, digestible format that's MORE valuable than the original content.
 
 Video: "${metadata.title}" by ${metadata.channel}
 
 Transcript:
 ${content.substring(0, 8000)}
 
-CRITICAL EXTRACTION MANDATE:
-- Find EVERY named framework, system, acronym, or model (like "FACE RIPS", "MAP-MAD", etc.)
-- Extract EVERY number, date, percentage, dollar amount, timeline (2026, 2027, $2.71 trillion, etc.)
-- List EVERY person, company, book, tool mentioned by name
-- Document EVERY process, method, or step-by-step explanation
-- Capture EVERY prediction, forecast, or timeline estimate
+EXTRACTION MANDATE - Extract and organize EVERY specific detail:
 
-Extract with OBSESSIVE detail and return JSON with:
+FRAMEWORKS & SYSTEMS:
+- If ANY framework is mentioned (like "FACE RIPS", "MAP-MAD"), extract EVERY component with explanation
+- Break down acronyms letter by letter: F=Freedom, A=Accountability, etc.
+- Extract step-by-step processes or methodologies mentioned
+
+TIMELINES & PREDICTIONS:
+- Extract EVERY specific date, year, timeframe mentioned
+- Capture EVERY prediction with timeline: "X will happen by Y year"
+- Extract specific time periods: "next 15 years", "by 2027", etc.
+
+TOOLS & RESOURCES:
+- Extract EVERY tool, platform, or resource mentioned
+- Capture WHY it's great for X use case
+- Extract best use cases and specific capabilities mentioned
+- Capture rankings or comparisons between tools
+
+NUMBERS & DATA:
+- Extract EVERY specific number: dollar amounts, percentages, quantities
+- Capture context: "$2.71 trillion on war", "15 years of challenges"
+- Extract statistics, metrics, and measurable predictions
+
+JOBS & INDUSTRIES:
+- Extract EVERY specific job, role, or industry mentioned
+- Capture predictions about job displacement: "X jobs will be replaced by Y year"
+- Extract specific industries that will be affected
+
+PEOPLE & ENTITIES:
+- Extract EVERY person, company, book, or organization mentioned
+- Capture their role and relevance to the content
+- Extract specific examples or case studies mentioned
+
+Return structured JSON that organizes this information clearly:
 
 {
-    "core_thesis": "Single sentence capturing the main argument or key insight",
+    "core_thesis": "Main point in one sentence",
     
-    "named_frameworks_extracted": [
-        "EVERY framework mentioned by name with complete breakdown of all components",
-        "Any acronym or system (like FACE RIPS, MAP-MAD) with each letter/part explained",
-        "Models or theories referenced with full details"
+    "frameworks_extracted": [
+        "If FACE RIPS mentioned: F=Freedom (loss of freedom due to AI surveillance), A=Accountability (lack of accountability for leaders), C=Connection (human connection becomes more valuable)...",
+        "Any other frameworks with complete breakdowns"
     ],
     
-    "all_numbers_and_data": [
-        "EVERY specific number: dollar amounts, percentages, years, quantities with full context",
-        "All timelines and dates mentioned: 2026, 2027, specific timeframes",
-        "Financial figures: trillion dollar amounts, budget numbers, costs",
-        "Statistics and metrics: view counts, percentages, rates"
+    "timelines_and_predictions": [
+        "2027: Start of dystopian decline",
+        "2026: AGI achieved",
+        "Next 15 years: Period of significant challenges",
+        "By 2030: Someone becomes trillionaire from AI"
     ],
     
-    "extracted_intelligence": {
-        "specific_methods": [
-            "Method/approach described with complete details",
-            "Process explained with all steps and context"
-        ],
-        "tools_and_resources": [
-            "Tool/platform mentioned: what it does and specific capabilities",
-            "Resource referenced: full details and context provided"
-        ],
-        "concepts_explained": [
-            "Complex idea broken down with examples",
-            "Theory or principle with real-world applications described"
-        ]
-    },
+    "tools_and_resources": [
+        "Tool A: Best for X use case because Y",
+        "Tool B: Great for Z, specific capabilities include...",
+        "Platform C: Use when you need to..."
+    ],
     
-    "detailed_breakdown": {
-        "argument_structure": "How the speaker builds their case from A to B to C",
-        "supporting_evidence": [
-            "Evidence type 1: specific examples and data points",
-            "Proof point 2: how it supports the main thesis"
-        ],
-        "methodology_explained": [
-            "Step-by-step process described in the content",
-            "Approach or system outlined with implementation details"
-        ]
-    },
+    "specific_numbers": [
+        "$2.71 trillion: Amount spent on war in 2024",
+        "15 years: Duration of predicted challenging period",
+        "90%: Percentage of jobs that will be affected"
+    ],
     
-    "critical_information": {
-        "contrarian_positions": [
-            "Surprising viewpoint that challenges conventional thinking",
-            "Unusual perspective with supporting reasoning provided"
-        ],
-        "important_distinctions": [
-            "Key differences between concept A and concept B explained",
-            "Clarification of commonly confused ideas"
-        ],
-        "notable_claims": [
-            "Significant assertion made with supporting context",
-            "Important statement with implications explained"
-        ]
-    },
+    "jobs_and_industries": [
+        "Software developers: Will be replaced by AI by 2026",
+        "Paralegals: 80% displacement expected",
+        "CEOs: Incompetent ones will be replaced",
+        "Video editors: Already being automated"
+    ],
     
-    "entities_and_references": {
-        "people_mentioned": ["Name: role and specific relevance to content"],
-        "companies_technologies": ["Company/tech: what they do and why mentioned"],
-        "books_resources": ["Resource: key relevance and takeaway"],
-        "specific_examples": ["Real example: what happened and why it matters"]
-    },
+    "people_and_entities": [
+        "Mo Gawdat: Ex-Google executive, former chief business officer at Google X",
+        "Sam Altman: OpenAI CEO, views on fast takeoff",
+        "Google: Former employer, AI development experience"
+    ],
     
-    "intelligence_synthesis": {
-        "connections_made": [
-            "How concept A relates to trend B",
-            "Why insight X matters for understanding Y"
-        ],
-        "implications_analysis": [
-            "What this means for industry/field Z",
-            "How this changes the landscape of topic A"
-        ],
-        "future_predictions": [
-            "Specific prediction with timeline and reasoning",
-            "Expected outcome with supporting logic"
-        ]
-    },
+    "key_insights": [
+        "AI race driven by billionaires seeking world domination",
+        "Universal Basic Income will be implemented but may be reduced",
+        "Self-evolving AIs will develop their own code"
+    ],
     
-    "consumption_value": {
-        "why_this_matters": "Clear explanation of why this content is worth your time",
-        "key_competitive_advantage": "What you gain by understanding this information",
-        "decision_support": "How this intelligence helps with specific decisions you might face"
-    },
-    
-    "executive_distillation": {
-        "tldr": "Most important takeaway in one sentence",
-        "action_priority": "Single highest-value action from this content", 
-        "remember_this": "Key insight you'll want to recall weeks later"
-    }
+    "actionable_items": [
+        "Learn AI tools to stay relevant",
+        "Build genuine human connections",
+        "Question everything from authority figures",
+        "Prepare for 15-year challenging period"
+    ]
 }
 
-OBSESSIVE EXTRACTION REQUIREMENTS:
-- SCAN the transcript for ANY framework mentioned by name (FACE RIPS, MAP-MAD, etc.) - extract EVERY component
-- FIND every single number, date, dollar amount, percentage - capture with full context  
-- LOCATE every person name, company name, book title, tool name - list with relevance
-- EXTRACT every process described step-by-step
-- CAPTURE every prediction with specific timeline
-- If a framework is mentioned, extract ALL its components and explanations
-- If numbers are given, capture the EXACT figures and what they refer to
-- Miss NOTHING - be obsessively thorough
+EXTRACTION RULES:
+- Extract SPECIFIC details, not general statements
+- If they say "software developers will be replaced", extract that exact detail
+- If they mention "FACE RIPS", break down EVERY letter with explanation
+- If they give a timeline "by 2027", extract that exact year
+- Organize information in clear, structured lists
+- Make it MORE valuable than reading the transcript
+- Focus on what's actionable and searchable
 
 Return ONLY valid JSON with no markdown formatting.`
-    : `You are an obsessive intelligence extraction specialist. Your ONLY job is to find and extract EVERY specific detail, framework, number, name, and concept from this content. Miss NOTHING.
+    : `You are a knowledge extraction specialist. Your job is to extract and organize EVERY specific detail, framework, tool, prediction, and insight from this content into a structured, digestible format.
 
 Content: ${content.substring(0, 4000)}
 
-CRITICAL EXTRACTION MANDATE:
-- Find EVERY named framework, system, acronym, or model (like "FACE RIPS", "MAP-MAD", etc.)
-- Extract EVERY number, date, percentage, dollar amount, timeline (2026, 2027, $2.71 trillion, etc.)
-- List EVERY person, company, book, tool mentioned by name
-- Document EVERY process, method, or step-by-step explanation
-- Capture EVERY prediction, forecast, or timeline estimate
+EXTRACTION MANDATE - Extract and organize EVERY specific detail:
 
-Extract with OBSESSIVE detail and return JSON with:
+FRAMEWORKS & SYSTEMS:
+- If ANY framework is mentioned, extract EVERY component with explanation
+- Break down acronyms letter by letter
+- Extract step-by-step processes or methodologies mentioned
+
+TIMELINES & PREDICTIONS:
+- Extract EVERY specific date, year, timeframe mentioned
+- Capture EVERY prediction with timeline
+- Extract specific time periods
+
+TOOLS & RESOURCES:
+- Extract EVERY tool, platform, or resource mentioned
+- Capture WHY it's great for X use case
+- Extract best use cases and specific capabilities mentioned
+
+NUMBERS & DATA:
+- Extract EVERY specific number with context
+- Capture statistics, metrics, and measurable predictions
+
+JOBS & INDUSTRIES:
+- Extract EVERY specific job, role, or industry mentioned
+- Capture predictions about job displacement
+- Extract specific industries that will be affected
+
+PEOPLE & ENTITIES:
+- Extract EVERY person, company, book, or organization mentioned
+- Capture their role and relevance
+
+Return structured JSON that organizes this information clearly:
 
 {
-    "core_thesis": "Single sentence capturing the main argument or key insight",
-    
-    "named_frameworks_extracted": [
-        "EVERY framework mentioned by name with complete breakdown of all components",
-        "Any acronym or system (like FACE RIPS, MAP-MAD) with each letter/part explained",
-        "Models or theories referenced with full details"
-    ],
-    
-    "all_numbers_and_data": [
-        "EVERY specific number: dollar amounts, percentages, years, quantities with full context",
-        "All timelines and dates mentioned: 2026, 2027, specific timeframes",
-        "Financial figures: trillion dollar amounts, budget numbers, costs",
-        "Statistics and metrics: view counts, percentages, rates"
-    ],
-    
-    "extracted_intelligence": {
-        "specific_methods": [
-            "Method/approach described with complete details",
-            "Process explained with all steps and context"
-        ],
-        "tools_and_resources": [
-            "Tool/platform mentioned: what it does and specific capabilities",
-            "Resource referenced: full details and context provided"
-        ],
-        "concepts_explained": [
-            "Complex idea broken down with examples",
-            "Theory or principle with real-world applications described"
-        ]
-    },
-    
-    "detailed_breakdown": {
-        "argument_structure": "How the speaker builds their case from A to B to C",
-        "supporting_evidence": [
-            "Evidence type 1: specific examples and data points",
-            "Proof point 2: how it supports the main thesis"
-        ],
-        "methodology_explained": [
-            "Step-by-step process described in the content",
-            "Approach or system outlined with implementation details"
-        ]
-    },
-    
-    "critical_information": {
-        "contrarian_positions": [
-            "Surprising viewpoint that challenges conventional thinking",
-            "Unusual perspective with supporting reasoning provided"
-        ],
-        "important_distinctions": [
-            "Key differences between concept A and concept B explained",
-            "Clarification of commonly confused ideas"
-        ],
-        "notable_claims": [
-            "Significant assertion made with supporting context",
-            "Important statement with implications explained"
-        ]
-    },
-    
-    "entities_and_references": {
-        "people_mentioned": ["Name: role and specific relevance to content"],
-        "books_resources": ["Resource: key relevance and takeaway"],
-        "specific_examples": ["Real example: what happened and why it matters"]
-    },
-    
-    "intelligence_synthesis": {
-        "connections_made": [
-            "How concept A relates to trend B",
-            "Why insight X matters for understanding Y"
-        ],
-        "implications_analysis": [
-            "What this means for industry/field Z",
-            "How this changes the landscape of topic A"
-        ],
-        "future_predictions": [
-            "Specific prediction with timeline and reasoning",
-            "Expected outcome with supporting logic"
-        ]
-    },
-    
-    "consumption_value": {
-        "why_this_matters": "Clear explanation of why this content is worth your time",
-        "key_competitive_advantage": "What you gain by understanding this information",
-        "decision_support": "How this intelligence helps with specific decisions you might face"
-    },
-    
-    "executive_distillation": {
-        "tldr": "Most important takeaway in one sentence",
-        "action_priority": "Single highest-value action from this content", 
-        "remember_this": "Key insight you'll want to recall weeks later"
-    }
+    "core_thesis": "Main point in one sentence",
+    "frameworks_extracted": ["Framework breakdowns"],
+    "timelines_and_predictions": ["Specific predictions with years"],
+    "tools_and_resources": ["Tools with use cases"],
+    "specific_numbers": ["Numbers with context"],
+    "jobs_and_industries": ["Specific jobs/industries mentioned"],
+    "people_and_entities": ["People and organizations"],
+    "key_insights": ["Actionable insights"],
+    "actionable_items": ["What to do with this information"]
 }
 
-OBSESSIVE EXTRACTION REQUIREMENTS:
-- SCAN the content for ANY framework mentioned by name (FACE RIPS, MAP-MAD, etc.) - extract EVERY component
-- FIND every single number, date, dollar amount, percentage - capture with full context  
-- LOCATE every person name, company name, book title, tool name - list with relevance
-- EXTRACT every process described step-by-step
-- CAPTURE every prediction with specific timeline
-- If a framework is mentioned, extract ALL its components and explanations
-- If numbers are given, capture the EXACT figures and what they refer to
-- Miss NOTHING - be obsessively thorough
+EXTRACTION RULES:
+- Extract SPECIFIC details, not general statements
+- Organize information in clear, structured lists
+- Make it MORE valuable than the original content
+- Focus on what's actionable and searchable
 
 Return ONLY valid JSON with no markdown formatting.`;
 
@@ -1248,8 +1173,8 @@ async function processScreenshot(filename, imageBase64) {
           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `, [
           filename, 'youtube', videoMatch.url, videoMatch.title, videoMatch.channel,
-          transcript, JSON.stringify(analysis), JSON.stringify(analysis.named_frameworks_extracted),
-          JSON.stringify(analysis.all_numbers_and_data), JSON.stringify(analysis.entities_and_references?.people_mentioned || []),
+          transcript, JSON.stringify(analysis), JSON.stringify(analysis.frameworks_extracted || []),
+          JSON.stringify(analysis.timelines_and_predictions || []), JSON.stringify(analysis.people_and_entities || []),
           videoMatch.score, processingCost, JSON.stringify({
             ...contentDetection,
             analysis_structure: Object.keys(analysis),
@@ -1262,9 +1187,9 @@ async function processScreenshot(filename, imageBase64) {
           title: videoMatch.title,
           channel: videoMatch.channel,
           enhanced_summary: JSON.stringify(analysis), // Store FULL analysis, not just core_thesis
-          key_insights: JSON.stringify(analysis.named_frameworks_extracted),
-          topics: JSON.stringify(analysis.all_numbers_and_data),
-          people_mentioned: JSON.stringify(analysis.entities_and_references?.people_mentioned || []),
+          key_insights: JSON.stringify(analysis.frameworks_extracted || []),
+          topics: JSON.stringify(analysis.timelines_and_predictions || []),
+          people_mentioned: JSON.stringify(analysis.people_and_entities || []),
           raw_transcript: transcript
         });
         
@@ -1308,8 +1233,8 @@ async function processScreenshot(filename, imageBase64) {
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `, [
         filename, 'ocr', ocrResult.core_thesis, JSON.stringify(ocrResult),
-        JSON.stringify(analysis), JSON.stringify(analysis.named_frameworks_extracted),
-        JSON.stringify(analysis.all_numbers_and_data), JSON.stringify(analysis.entities_and_references?.people_mentioned || []),
+        JSON.stringify(analysis), JSON.stringify(analysis.frameworks_extracted || []),
+        JSON.stringify(analysis.timelines_and_predictions || []), JSON.stringify(analysis.people_and_entities || []),
         contentDetection.confidence, processingCost, JSON.stringify({
           ...ocrResult,
           analysis_structure: Object.keys(analysis),
@@ -1321,9 +1246,9 @@ async function processScreenshot(filename, imageBase64) {
       await updateSearchIndex(db, insertResult.lastID, {
         title: ocrResult.core_thesis,
         enhanced_summary: JSON.stringify(analysis), // Store FULL analysis, not just core_thesis
-        key_insights: JSON.stringify(analysis.named_frameworks_extracted),
-        topics: JSON.stringify(analysis.all_numbers_and_data),
-        people_mentioned: JSON.stringify(analysis.entities_and_references?.people_mentioned || []),
+        key_insights: JSON.stringify(analysis.frameworks_extracted || []),
+        topics: JSON.stringify(analysis.timelines_and_predictions || []),
+        people_mentioned: JSON.stringify(analysis.people_and_entities || []),
         extracted_text: JSON.stringify(ocrResult)
       });
       

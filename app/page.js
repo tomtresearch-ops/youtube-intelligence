@@ -8,7 +8,7 @@ import ProcessingStatus from './components/ProcessingStatus'
 import ContentGrid from './components/ContentGrid'
 
 export default function HomePage() {
-  const [activeTab, setActiveTab] = useState('upload')
+  const [activeTab, setActiveTab] = useState('search') // Changed default to Library
   const [processingFiles, setProcessingFiles] = useState([])
   const [searchResults, setSearchResults] = useState([])
   const [isSearching, setIsSearching] = useState(false)
@@ -34,17 +34,46 @@ export default function HomePage() {
     }
   }, [])
 
+  // Load all content by default
+  const loadAllContent = useCallback(async () => {
+    setIsSearching(true)
+    try {
+      const response = await fetch('/api/search', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ query: '' }) // Empty query to get all content
+      })
+      const results = await response.json()
+      setSearchResults(results.results || [])
+    } catch (error) {
+      console.error('Failed to load content:', error)
+    } finally {
+      setIsSearching(false)
+    }
+  }, [])
+
   // Fetch stats when component mounts and when processing completes
   useEffect(() => {
     fetchStats()
-  }, [fetchStats])
+    loadAllContent() // Load all content by default
+  }, [fetchStats, loadAllContent])
 
   // Refresh stats when processing completes
   useEffect(() => {
     if (processingFiles.some(f => f.status === 'completed')) {
       fetchStats()
+      loadAllContent() // Reload content when new processing completes
     }
-  }, [processingFiles, fetchStats])
+  }, [processingFiles, fetchStats, loadAllContent])
+
+  // Load content when switching to Library tab
+  useEffect(() => {
+    if (activeTab === 'search') {
+      loadAllContent()
+    }
+  }, [activeTab, loadAllContent])
 
   const handleFilesSelected = useCallback(async (files) => {
     const newProcessingFiles = Array.from(files).map(file => ({
@@ -69,7 +98,7 @@ export default function HomePage() {
     }
   }, [])
 
-  const processFile = async (fileInfo) => {
+  const processFile = async (fileInfo, forceReprocess = false) => {
     updateFileStatus(fileInfo.id, 'processing', { progress: 10 })
 
     // Convert file to base64
@@ -84,19 +113,35 @@ export default function HomePage() {
       },
       body: JSON.stringify({
         filename: fileInfo.name,
-        imageBase64: base64
+        imageBase64: base64,
+        force_reprocess: forceReprocess
       })
     })
 
     updateFileStatus(fileInfo.id, 'processing', { progress: 70 })
 
     const result = await response.json()
+    console.log('API Response:', result) // Debug log
     updateFileStatus(fileInfo.id, 'processing', { progress: 100 })
 
-    if (result.status === 'success') {
-      updateFileStatus(fileInfo.id, 'completed', { result })
+    if (result.status === 'success' || result.status === 'completed') {
+      // Map the API response to the expected structure
+      const mappedResult = {
+        ...result,
+        contentType: result.contentType || result.content_type || 'ocr',
+        analysis: result.analysis || result.ocr || result
+      }
+      updateFileStatus(fileInfo.id, 'completed', { result: mappedResult })
+    } else if (result.error) {
+      updateFileStatus(fileInfo.id, 'error', { error: result.error })
     } else {
-      updateFileStatus(fileInfo.id, 'error', { error: result.error || 'Processing failed' })
+      // If no explicit error but also no success, treat as completed
+      const mappedResult = {
+        ...result,
+        contentType: result.contentType || result.content_type || 'ocr',
+        analysis: result.analysis || result.ocr || result
+      }
+      updateFileStatus(fileInfo.id, 'completed', { result: mappedResult })
     }
   }
 
@@ -104,6 +149,22 @@ export default function HomePage() {
     setProcessingFiles(prev => prev.map(file => 
       file.id === id ? { ...file, status, ...data } : file
     ))
+  }
+
+  const handleForceReprocess = (file) => {
+    // Create a new file info for reprocessing
+    const fileInfo = {
+      id: Math.random().toString(36).substr(2, 9),
+      file: file.file,
+      name: file.name,
+      status: 'processing',
+      progress: 0,
+      type: 'youtube',
+      result: null
+    }
+    
+    setProcessingFiles(prev => [...prev, fileInfo])
+    processFile(fileInfo, true) // Force reprocess
   }
 
   const fileToBase64 = (file) => {
@@ -123,7 +184,7 @@ export default function HomePage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ query })
+        body: JSON.stringify({ query: query || '' })
       })
       const results = await response.json()
       setSearchResults(results.results || [])
@@ -209,14 +270,19 @@ export default function HomePage() {
           <div className="space-y-8">
             <UploadZone onFilesSelected={handleFilesSelected} />
             {processingFiles.length > 0 && (
-              <ProcessingStatus files={processingFiles} />
+              <ProcessingStatus files={processingFiles} onForceReprocess={handleForceReprocess} />
             )}
           </div>
         )}
 
         {activeTab === 'search' && (
           <div className="space-y-8">
-            <SearchInterface onSearch={handleSearch} isSearching={isSearching} />
+            <SearchInterface 
+              onSearch={handleSearch} 
+              isSearching={isSearching} 
+              isShowingAllContent={searchResults.length > 0 && !isSearching}
+              hasSearchResults={searchResults.length > 0}
+            />
             {searchResults.length > 0 && (
               <ContentGrid results={searchResults} />
             )}

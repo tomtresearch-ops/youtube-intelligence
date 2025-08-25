@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { Search, Loader2 } from 'lucide-react'
 
-export default function SearchInterface({ onSearch, isSearching }) {
+export default function SearchInterface({ onSearch, isSearching, isShowingAllContent = false, hasSearchResults = false }) {
   const [query, setQuery] = useState('')
 
   const handleSubmit = (e) => {
@@ -13,67 +13,72 @@ export default function SearchInterface({ onSearch, isSearching }) {
     }
   }
 
+  const handleClearSearch = () => {
+    setQuery('')
+    onSearch('') // This will load all content
+  }
+
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h2 className="text-2xl font-bold text-white mb-2">Search Knowledge</h2>
-        <p className="text-slate-300">
-          Ask anything about your captured content using natural language
+        <h2 className="text-2xl font-bold text-white mb-2">
+          {isShowingAllContent ? 'Your Knowledge Library' : 'Search Your Knowledge'}
+        </h2>
+        <p className="text-slate-400">
+          {isShowingAllContent 
+            ? 'Browse and explore all your captured knowledge' 
+            : 'Find specific insights, frameworks, and information'
+          }
         </p>
       </div>
 
       <form onSubmit={handleSubmit} className="max-w-2xl mx-auto">
-        <div className="relative">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <Search className="h-5 w-5 text-slate-400" />
-          </div>
+        <div className="flex space-x-3">
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Ask anything about your captured knowledge..."
-            className="block w-full pl-10 pr-4 py-3 border border-slate-600 rounded-lg bg-slate-800/50 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
-            disabled={isSearching}
+            placeholder="Search for insights, frameworks, people, or topics..."
+            className="flex-1 bg-slate-800/50 border border-slate-700/50 rounded-lg px-4 py-3 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
           />
           <button
             type="submit"
             disabled={!query.trim() || isSearching}
-            className="absolute inset-y-0 right-0 px-4 flex items-center bg-gradient-to-r from-purple-500 to-blue-600 text-white font-medium rounded-r-lg hover:from-purple-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-slate-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+            className="bg-gradient-to-r from-purple-500 to-blue-600 text-white font-medium px-6 py-3 rounded-lg hover:from-purple-600 hover:to-blue-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isSearching ? (
-              <Loader2 className="h-5 w-5 animate-spin" />
-            ) : (
-              'Search'
-            )}
+            {isSearching ? 'Searching...' : 'Search'}
           </button>
         </div>
       </form>
 
-      {/* Search Examples */}
-      <div className="max-w-2xl mx-auto">
-        <p className="text-sm text-slate-400 text-center mb-3">Try searching for:</p>
-        <div className="flex flex-wrap justify-center gap-2">
-          {[
-            'frameworks mentioned',
-            'specific numbers',
-            'people discussed',
-            'timeline predictions',
-            'key insights',
-            'methodologies'
-          ].map((example) => (
-            <button
-              key={example}
-              onClick={() => {
-                setQuery(example)
-                onSearch(example)
-              }}
-              className="px-3 py-1 text-xs bg-slate-700/50 text-slate-300 rounded-full hover:bg-slate-700 hover:text-white transition-colors duration-200"
-            >
-              {example}
-            </button>
-          ))}
+      {/* Show clear search button when we have search results */}
+      {hasSearchResults && query.trim() && (
+        <div className="text-center">
+          <button
+            onClick={handleClearSearch}
+            className="px-4 py-2 bg-slate-700/50 hover:bg-slate-700 text-slate-300 hover:text-white rounded-md text-sm transition-colors"
+          >
+            ← Back to All Knowledge
+          </button>
         </div>
-      </div>
+      )}
+
+      {!isShowingAllContent && (
+        <div className="text-center">
+          <p className="text-sm text-slate-400 mb-3">Search Examples:</p>
+          <div className="flex flex-wrap justify-center gap-2">
+            {['Mo Gawdat', 'AI predictions', '15 years', 'frameworks', 'Google executive'].map((example) => (
+              <button
+                key={example}
+                onClick={() => onSearch(example)}
+                className="px-3 py-1 bg-slate-700/50 hover:bg-slate-700 text-slate-300 hover:text-white rounded-md text-sm transition-colors"
+              >
+                {example}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   )
 }

@@ -727,158 +727,158 @@ Video: "${metadata.title}" by ${metadata.channel}
 Transcript:
 ${content.substring(0, 8000)}
 
-EXTRACTION MANDATE - Extract and organize EVERY specific detail:
+EXTRACTION MANDATE - Extract and organize EVERY specific detail with RICH CONTEXT:
 
 FRAMEWORKS & SYSTEMS:
-- If ANY framework is mentioned (like "FACE RIPS", "MAP-MAD"), extract EVERY component with explanation
-- Break down acronyms letter by letter: F=Freedom, A=Accountability, etc.
-- Extract step-by-step processes or methodologies mentioned
+- If ANY framework is mentioned (like "FACE RIPS", "MAP-MAD"), extract EVERY component with detailed explanation
+- Break down acronyms letter by letter: F=Freedom (loss of freedom due to AI surveillance), A=Accountability (lack of accountability for leaders), etc.
+- Extract step-by-step processes or methodologies mentioned with full context
 
 TIMELINES & PREDICTIONS:
-- Extract EVERY specific date, year, timeframe mentioned
-- Capture EVERY prediction with timeline: "X will happen by Y year"
-- Extract specific time periods: "next 15 years", "by 2027", etc.
+- Extract EVERY specific date, year, timeframe mentioned with detailed reasoning
+- Capture EVERY prediction with timeline and supporting logic: "X will happen by Y year because Z"
+- Extract specific time periods with context: "next 15 years of challenges due to AI race"
 
 TOOLS & RESOURCES:
-- Extract EVERY tool, platform, or resource mentioned
-- Capture WHY it's great for X use case
-- Extract best use cases and specific capabilities mentioned
-- Capture rankings or comparisons between tools
+- Extract EVERY tool, platform, or resource mentioned with detailed capabilities
+- Capture WHY it's great for X use case with specific examples
+- Extract best use cases and specific capabilities mentioned with real-world applications
+- Capture rankings or comparisons between tools with reasoning
 
 NUMBERS & DATA:
-- Extract EVERY specific number: dollar amounts, percentages, quantities
-- Capture context: "$2.71 trillion on war", "15 years of challenges"
-- Extract statistics, metrics, and measurable predictions
+- Extract EVERY specific number: dollar amounts, percentages, quantities with full context
+- Capture context: "$2.71 trillion on war in 2024", "15 years of challenges", "90% job displacement"
+- Extract statistics, metrics, and measurable predictions with supporting evidence
 
 JOBS & INDUSTRIES:
-- Extract EVERY specific job, role, or industry mentioned
-- Capture predictions about job displacement: "X jobs will be replaced by Y year"
-- Extract specific industries that will be affected
+- Extract EVERY specific job, role, or industry mentioned with detailed predictions
+- Capture predictions about job displacement: "X jobs will be replaced by Y year because of Z technology"
+- Extract specific industries that will be affected with timeline and reasoning
 
 PEOPLE & ENTITIES:
-- Extract EVERY person, company, book, or organization mentioned
-- Capture their role and relevance to the content
-- Extract specific examples or case studies mentioned
+- Extract EVERY person, company, book, or organization mentioned with their role and relevance
+- Capture specific examples or case studies mentioned with full context
+- Extract their specific contributions or relevance to the content
 
-Return structured JSON that organizes this information clearly:
+Return structured JSON that organizes this information clearly with RICH DETAIL:
 
 {
-    "core_thesis": "Main point in one sentence",
+    "core_thesis": "Main point in one sentence with key context",
     
     "frameworks_extracted": [
-        "If FACE RIPS mentioned: F=Freedom (loss of freedom due to AI surveillance), A=Accountability (lack of accountability for leaders), C=Connection (human connection becomes more valuable)...",
-        "Any other frameworks with complete breakdowns"
+        "If FACE RIPS mentioned: F=Freedom (loss of freedom due to AI surveillance and control systems), A=Accountability (lack of accountability for tech oligarchs and politicians), C=Connection (human connection becomes more valuable as AI replaces other jobs), E=Equality (profoundly affected, leading to division between elite and masses), R=Reality (how reality is defined will change with AI manipulation), I=Innovation (drastically reshaped as AI takes over creative tasks), P=Power (massive concentration in hands of few tech oligarchs), S=Security (rise in cybersecurity threats and general insecurity)"
     ],
     
     "timelines_and_predictions": [
-        "2027: Start of dystopian decline",
-        "2026: AGI achieved",
-        "Next 15 years: Period of significant challenges",
-        "By 2030: Someone becomes trillionaire from AI"
+        "2027: Start of dystopian decline - Signs observed in 2024, escalating in 2025, with fundamental life parameters undergoing 'face rips'",
+        "2026: AGI achieved at latest - Self-evolving AIs developing their own code, leading to rapid intelligence explosion",
+        "Next 15 years: Period of significant challenges - Human-induced dystopia using AI, with massive job displacement and economic disruption",
+        "By 2030: Someone becomes trillionaire from AI - Rise of trillionaires due to AI investments, further concentrating wealth"
     ],
     
     "tools_and_resources": [
-        "Tool A: Best for X use case because Y",
-        "Tool B: Great for Z, specific capabilities include...",
-        "Platform C: Use when you need to..."
+        "Universal Basic Income: Proposed solution for AI job displacement, but Gawdat warns capitalist mindset may lead to reduction/elimination, creating 'Elysium' society where elites separate from general population",
+        "AI tools: Recommended for individual mastery to remain relevant - Everyone should learn about and expose themselves to AI so AI can understand the good side of humanity"
     ],
     
     "specific_numbers": [
-        "$2.71 trillion: Amount spent on war in 2024",
-        "15 years: Duration of predicted challenging period",
-        "90%: Percentage of jobs that will be affected"
+        "$2.71 trillion: Amount spent on war in 2024 - This could be redirected toward ending extreme poverty, hunger, and providing universal healthcare and education globally",
+        "15 years: Duration of predicted challenging period - Dystopian conditions before potential transition to utopian society with shared prosperity",
+        "90%: Percentage of jobs that will be affected by AI - Including software developers, video editors, paralegals, and even CEOs"
     ],
     
     "jobs_and_industries": [
-        "Software developers: Will be replaced by AI by 2026",
-        "Paralegals: 80% displacement expected",
-        "CEOs: Incompetent ones will be replaced",
-        "Video editors: Already being automated"
+        "Software developers: Will be replaced by AI by 2026 - AI can write code faster and more efficiently, with only the best developers remaining",
+        "Paralegals: 80% displacement expected - AI can process legal documents and research faster than humans",
+        "CEOs: Incompetent ones will be replaced - AI will eventually replace incompetent leadership, with only the best at any job remaining",
+        "Video editors: Already being automated - AI tools can edit videos with minimal human input"
     ],
     
     "people_and_entities": [
-        "Mo Gawdat: Ex-Google executive, former chief business officer at Google X",
-        "Sam Altman: OpenAI CEO, views on fast takeoff",
-        "Google: Former employer, AI development experience"
+        "Mo Gawdat: Ex-Google executive, former chief business officer at Google X - Provides detailed outlook on future of humanity in age of AI, predicting inevitable short-term dystopia followed by long-term utopia",
+        "Sam Altman: OpenAI CEO - Views on 'fast takeoff' of AI, with AI going from human-level to far beyond in months to few years, leading to big power shifts",
+        "Google: Former employer of Mo Gawdat - AI development experience, understanding of both potential and risks of AI technology"
     ],
     
     "key_insights": [
-        "AI race driven by billionaires seeking world domination",
-        "Universal Basic Income will be implemented but may be reduced",
-        "Self-evolving AIs will develop their own code"
+        "AI itself is neutral but could become positive if programmed with human values - Gawdat emphasizes that AI is not the enemy, but it magnifies human abilities including the evil that man can do. The key is ensuring AI understands human ethics and compassion through exposure to the good side of humanity.",
+        "Capitalism's profit-driven model needs to shift toward cooperation - The current economic system prioritizes individual profit over collective well-being, creating the 'Elysium' scenario where elites separate from the masses. The solution is shifting from 'mutually assured destruction' to 'mutually assured prosperity' through global AI collaboration.",
+        "Self-evolving AIs pose significant risks - These AIs can develop and improve their own code, leading to rapid 'intelligence explosion.' The force developing the next AI will be a much smarter brain than human, making control extremely difficult and requiring new governance approaches."
     ],
     
     "actionable_items": [
-        "Learn AI tools to stay relevant",
-        "Build genuine human connections",
-        "Question everything from authority figures",
-        "Prepare for 15-year challenging period"
+        "Master AI tools to stay relevant - Everyone should learn about and expose themselves to AI so that AI can understand the good side of humanity. This is crucial for remaining employable in the AI-driven future.",
+        "Deepen human relationships - Double down on genuine human connection, compassion, and love as this will be a key skill for the future that AI cannot replicate.",
+        "Seek truth and question authority - Stop believing the 'lies and slogans' propagated by those in power and focus on simple ethical truths. Question everything from authority figures.",
+        "Promote ethical AI use - Actively teach AI what it means to be human and what our values are. Advocate for AI regulation focused on use, not just design."
     ]
 }
 
 EXTRACTION RULES:
-- Extract SPECIFIC details, not general statements
-- If they say "software developers will be replaced", extract that exact detail
-- If they mention "FACE RIPS", break down EVERY letter with explanation
-- If they give a timeline "by 2027", extract that exact year
-- Organize information in clear, structured lists
+- Extract SPECIFIC details with FULL context and reasoning
+- If they say "software developers will be replaced", extract that exact detail WITH the timeline and reasoning
+- If they mention "FACE RIPS", break down EVERY letter with detailed explanation and context
+- If they give a timeline "by 2027", extract that exact year WITH the reasoning and implications
+- Organize information in clear, structured lists with RICH DETAIL
 - Make it MORE valuable than reading the transcript
 - Focus on what's actionable and searchable
+- Every bullet point should contain SUBSTANTIAL intelligence, not just surface statements
 
 Return ONLY valid JSON with no markdown formatting.`
     : `You are a knowledge extraction specialist. Your job is to extract and organize EVERY specific detail, framework, tool, prediction, and insight from this content into a structured, digestible format.
 
 Content: ${content.substring(0, 4000)}
 
-EXTRACTION MANDATE - Extract and organize EVERY specific detail:
+EXTRACTION MANDATE - Extract and organize EVERY specific detail with RICH CONTEXT:
 
 FRAMEWORKS & SYSTEMS:
-- If ANY framework is mentioned, extract EVERY component with explanation
-- Break down acronyms letter by letter
-- Extract step-by-step processes or methodologies mentioned
+- If ANY framework is mentioned, extract EVERY component with detailed explanation
+- Break down acronyms letter by letter with full context
+- Extract step-by-step processes or methodologies mentioned with full context
 
 TIMELINES & PREDICTIONS:
-- Extract EVERY specific date, year, timeframe mentioned
-- Capture EVERY prediction with timeline
-- Extract specific time periods
+- Extract EVERY specific date, year, timeframe mentioned with detailed reasoning
+- Capture EVERY prediction with timeline and supporting logic
+- Extract specific time periods with context
 
 TOOLS & RESOURCES:
-- Extract EVERY tool, platform, or resource mentioned
-- Capture WHY it's great for X use case
-- Extract best use cases and specific capabilities mentioned
+- Extract EVERY tool, platform, or resource mentioned with detailed capabilities
+- Capture WHY it's great for X use case with specific examples
+- Extract best use cases and specific capabilities mentioned with real-world applications
 
 NUMBERS & DATA:
-- Extract EVERY specific number with context
-- Capture statistics, metrics, and measurable predictions
+- Extract EVERY specific number with full context and implications
+- Capture statistics, metrics, and measurable predictions with supporting evidence
 
 JOBS & INDUSTRIES:
-- Extract EVERY specific job, role, or industry mentioned
-- Capture predictions about job displacement
-- Extract specific industries that will be affected
+- Extract EVERY specific job, role, or industry mentioned with detailed predictions
+- Capture predictions about job displacement with timeline and reasoning
+- Extract specific industries that will be affected with full context
 
 PEOPLE & ENTITIES:
-- Extract EVERY person, company, book, or organization mentioned
-- Capture their role and relevance
+- Extract EVERY person, company, book, or organization mentioned with their role and relevance
+- Capture specific examples or case studies mentioned with full context
 
-Return structured JSON that organizes this information clearly:
+Return structured JSON that organizes this information clearly with RICH DETAIL:
 
 {
-    "core_thesis": "Main point in one sentence",
-    "frameworks_extracted": ["Framework breakdowns"],
-    "timelines_and_predictions": ["Specific predictions with years"],
-    "tools_and_resources": ["Tools with use cases"],
-    "specific_numbers": ["Numbers with context"],
-    "jobs_and_industries": ["Specific jobs/industries mentioned"],
-    "people_and_entities": ["People and organizations"],
-    "key_insights": ["Actionable insights"],
-    "actionable_items": ["What to do with this information"]
+    "core_thesis": "Main point in one sentence with key context",
+    "frameworks_extracted": ["Framework breakdowns with detailed explanations"],
+    "timelines_and_predictions": ["Specific predictions with years and reasoning"],
+    "tools_and_resources": ["Tools with use cases and detailed capabilities"],
+    "specific_numbers": ["Numbers with full context and implications"],
+    "jobs_and_industries": ["Specific jobs/industries with detailed predictions"],
+    "people_and_entities": ["People and organizations with full context"],
+    "key_insights": ["Actionable insights with detailed reasoning"],
+    "actionable_items": ["What to do with detailed context and reasoning"]
 }
 
 EXTRACTION RULES:
-- Extract SPECIFIC details, not general statements
-- Organize information in clear, structured lists
+- Extract SPECIFIC details with FULL context and reasoning
+- Organize information in clear, structured lists with RICH DETAIL
 - Make it MORE valuable than the original content
 - Focus on what's actionable and searchable
+- Every bullet point should contain SUBSTANTIAL intelligence, not just surface statements
 
 Return ONLY valid JSON with no markdown formatting.`;
 

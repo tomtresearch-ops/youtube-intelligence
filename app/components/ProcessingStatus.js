@@ -17,9 +17,22 @@ export default function ProcessingStatus({ files, onForceReprocess }) {
           {data.slice(0, maxItems).map((item, idx) => (
             <div key={idx} className="flex items-start space-x-3">
               <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 flex-shrink-0"></div>
-              <p className="text-slate-200 text-sm leading-relaxed">
-                {typeof item === 'string' ? item : JSON.stringify(item)}
-              </p>
+              <div className="text-slate-200 text-sm leading-relaxed">
+                {typeof item === 'string' ? (
+                  <p>{item}</p>
+                ) : typeof item === 'object' && item !== null ? (
+                  <div className="space-y-1">
+                    {Object.entries(item).map(([key, value]) => (
+                      <div key={key} className="flex items-start space-x-2">
+                        <span className="text-slate-400 font-medium capitalize">{key}:</span>
+                        <span className="text-slate-200">{String(value)}</span>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p>{String(item)}</p>
+                )}
+              </div>
             </div>
           ))}
           {data.length > maxItems && (

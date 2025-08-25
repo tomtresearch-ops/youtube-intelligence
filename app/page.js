@@ -8,7 +8,7 @@ import ProcessingStatus from './components/ProcessingStatus'
 import ContentGrid from './components/ContentGrid'
 
 export default function HomePage() {
-  const [activeTab, setActiveTab] = useState('search') // Changed default to Library
+  const [activeTab, setActiveTab] = useState('upload') // Changed back to Capture as default
   const [processingFiles, setProcessingFiles] = useState([])
   const [searchResults, setSearchResults] = useState([])
   const [isSearching, setIsSearching] = useState(false)

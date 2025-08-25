@@ -1163,6 +1163,8 @@ async function processScreenshot(filename, imageBase64) {
         // Use transcript even if it's short (might be fallback content)
         const analysis = await generateAnalysis(transcript, 'youtube', contentDetection.youtube_metadata);
         console.log('YouTube analysis completed');
+        console.log('Analysis structure:', Object.keys(analysis));
+        console.log('Analysis sample:', JSON.stringify(analysis, null, 2).substring(0, 500));
         
         // Store in database with FULL analysis structure
         const insertResult = await db.run(`

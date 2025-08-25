@@ -266,119 +266,60 @@ async function extractTextContent(imageBase64) {
           },
           {
             type: 'text',
-            text: `You are an obsessive intelligence extraction specialist. Your ONLY job is to find and extract EVERY specific detail, framework, number, name, and concept from this image. Miss NOTHING.
+            text: `You are a knowledge extraction specialist. Your job is to extract and organize EVERY specific detail, framework, tool, prediction, and insight from this content into a structured, digestible format.
 
-CRITICAL EXTRACTION MANDATE:
-- Find EVERY named framework, system, acronym, or model (like "FACE RIPS", "MAP-MAD", etc.)
-- Extract EVERY number, date, percentage, dollar amount, timeline (2026, 2027, $2.71 trillion, etc.)
-- List EVERY person, company, book, tool mentioned by name
-- Document EVERY process, method, or step-by-step explanation
-- Capture EVERY prediction, forecast, or timeline estimate
+Content: ${content.substring(0, 4000)}
 
-Extract with OBSESSIVE detail and return JSON with:
+EXTRACTION MANDATE - Extract and organize EVERY specific detail with RICH CONTEXT:
+
+FRAMEWORKS & SYSTEMS:
+- If ANY framework is mentioned, extract EVERY component with detailed explanation
+- Break down acronyms letter by letter with full context
+- Extract step-by-step processes or methodologies mentioned with full context
+
+TIMELINES & PREDICTIONS:
+- Extract EVERY specific date, year, timeframe mentioned with detailed reasoning
+- Capture EVERY prediction with timeline and supporting logic
+- Extract specific time periods with context
+
+TOOLS & RESOURCES:
+- Extract EVERY tool, platform, or resource mentioned with detailed capabilities
+- Capture WHY it's great for X use case with specific examples
+- Extract best use cases and specific capabilities mentioned with real-world applications
+
+NUMBERS & DATA:
+- Extract EVERY specific number with full context and implications
+- Capture statistics, metrics, and measurable predictions with supporting evidence
+
+JOBS & INDUSTRIES:
+- Extract EVERY specific job, role, or industry mentioned with detailed predictions
+- Capture predictions about job displacement with timeline and reasoning
+- Extract specific industries that will be affected with full context
+
+PEOPLE & ENTITIES:
+- Extract EVERY person, company, book, or organization mentioned with their role and relevance
+- Capture specific examples or case studies mentioned with full context
+
+Return structured JSON that organizes this information clearly with RICH DETAIL:
 
 {
-    "core_thesis": "Single sentence capturing the main argument or key insight",
-    
-    "named_frameworks_extracted": [
-        "EVERY framework mentioned by name with complete breakdown of all components",
-        "Any acronym or system (like FACE RIPS, MAP-MAD) with each letter/part explained",
-        "Models or theories referenced with full details"
-    ],
-    
-    "all_numbers_and_data": [
-        "EVERY specific number: dollar amounts, percentages, years, quantities with full context",
-        "All timelines and dates mentioned: 2026, 2027, specific timeframes",
-        "Financial figures: trillion dollar amounts, budget numbers, costs",
-        "Statistics and metrics: view counts, percentages, rates"
-    ],
-    
-    "extracted_intelligence": {
-        "specific_methods": [
-            "Method/approach described with complete details",
-            "Process explained with all steps and context"
-        ],
-        "tools_and_resources": [
-            "Tool/platform mentioned: what it does and specific capabilities",
-            "Resource referenced: full details and context provided"
-        ],
-        "concepts_explained": [
-            "Complex idea broken down with examples",
-            "Theory or principle with real-world applications described"
-        ]
-    },
-    
-    "detailed_breakdown": {
-        "argument_structure": "How the speaker builds their case from A to B to C",
-        "supporting_evidence": [
-            "Evidence type 1: specific examples and data points",
-            "Proof point 2: how it supports the main thesis"
-        ],
-        "methodology_explained": [
-            "Step-by-step process described in the content",
-            "Approach or system outlined with implementation details"
-        ]
-    },
-    
-    "critical_information": {
-        "contrarian_positions": [
-            "Surprising viewpoint that challenges conventional thinking",
-            "Unusual perspective with supporting reasoning provided"
-        ],
-        "important_distinctions": [
-            "Key differences between concept A and concept B explained",
-            "Clarification of commonly confused ideas"
-        ],
-        "notable_claims": [
-            "Significant assertion made with supporting context",
-            "Important statement with implications explained"
-        ]
-    },
-    
-    "entities_and_references": {
-        "people_mentioned": ["Name: role and specific relevance to content"],
-        "companies_technologies": ["Company/tech: what they do and why mentioned"],
-        "books_resources": ["Resource: key relevance and takeaway"],
-        "specific_examples": ["Real example: what happened and why it matters"]
-    },
-    
-    "intelligence_synthesis": {
-        "connections_made": [
-            "How concept A relates to trend B",
-            "Why insight X matters for understanding Y"
-        ],
-        "implications_analysis": [
-            "What this means for industry/field Z",
-            "How this changes the landscape of topic A"
-        ],
-        "future_predictions": [
-            "Specific prediction with timeline and reasoning",
-            "Expected outcome with supporting logic"
-        ]
-    },
-    
-    "consumption_value": {
-        "why_this_matters": "Clear explanation of why this content is worth your time",
-        "key_competitive_advantage": "What you gain by understanding this information",
-        "decision_support": "How this intelligence helps with specific decisions you might face"
-    },
-    
-    "executive_distillation": {
-        "tldr": "Most important takeaway in one sentence",
-        "action_priority": "Single highest-value action from this content", 
-        "remember_this": "Key insight you'll want to recall weeks later"
-    }
+    "core_thesis": "Main point in one sentence with key context",
+    "frameworks_extracted": ["Framework breakdowns with detailed explanations"],
+    "timelines_and_predictions": ["Specific predictions with years and reasoning"],
+    "tools_and_resources": ["Tools with use cases and detailed capabilities"],
+    "specific_numbers": ["Numbers with full context and implications"],
+    "jobs_and_industries": ["Specific jobs/industries with detailed predictions"],
+    "people_and_entities": ["People and organizations with full context"],
+    "key_insights": ["Actionable insights with detailed reasoning"],
+    "actionable_items": ["What to do with detailed context and reasoning"]
 }
 
-OBSESSIVE EXTRACTION REQUIREMENTS:
-- SCAN the image for ANY framework mentioned by name (FACE RIPS, MAP-MAD, etc.) - extract EVERY component
-- FIND every single number, date, dollar amount, percentage - capture with full context  
-- LOCATE every person name, company name, book title, tool name - list with relevance
-- EXTRACT every process described step-by-step
-- CAPTURE every prediction with specific timeline
-- If a framework is mentioned, extract ALL its components and explanations
-- If numbers are given, capture the EXACT figures and what they refer to
-- Miss NOTHING - be obsessively thorough
+EXTRACTION RULES:
+- Extract SPECIFIC details with FULL context and reasoning
+- Organize information in clear, structured lists with RICH DETAIL
+- Make it MORE valuable than the original content
+- Focus on what's actionable and searchable
+- Every bullet point should contain SUBSTANTIAL intelligence, not just surface statements
 
 Return ONLY valid JSON with no markdown formatting.`
           }

@@ -700,6 +700,13 @@ PEOPLE & ENTITIES:
 
 CRITICAL: You MUST extract specific details from the transcript. If you see "15 years" mentioned, extract it. If you see "software developers" mentioned, extract it. If you see "FACE RIPS" mentioned, break it down. Do not return empty arrays - find and extract the actual content.
 
+FORMAT REQUIREMENTS:
+- Each bullet point should be COMPREHENSIVE and DETAILED
+- Include specific examples, reasoning, and implications
+- Make each point valuable enough to replace reading the transcript
+- Use format like: "Specific detail - Full context and reasoning - Implications and examples"
+- Example: "2027: Start of dystopian decline - Signs observed in 2024, escalating in 2025, with fundamental life parameters undergoing 'face rips' - This creates a 3-year warning period before major societal disruption"
+
 Return structured JSON that organizes this information clearly with RICH DETAIL:
 
 {

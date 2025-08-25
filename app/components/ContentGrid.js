@@ -130,60 +130,40 @@ export default function ContentGrid({ results }) {
               {/* Frameworks & Methods */}
               {result.frameworks && result.frameworks.length > 0 && (
                 <div className="space-y-3">
-                  <button
-                    onClick={() => toggleSection(result.id || index, 'frameworks')}
-                    className="flex items-center space-x-2 w-full text-left hover:bg-slate-700/30 rounded-lg p-2 transition-colors"
-                  >
-                    {expandedSections[`${result.id || index}-frameworks`] ? (
-                      <ChevronDown className="w-5 h-5 text-green-400" />
-                    ) : (
-                      <ChevronRight className="w-5 h-5 text-green-400" />
-                    )}
+                  <div className="flex items-center space-x-2">
                     <Target className="w-5 h-5 text-green-400" />
                     <h5 className="text-md font-semibold text-white">Frameworks & Systems ({result.frameworks.length})</h5>
-                  </button>
-                  {expandedSections[`${result.id || index}-frameworks`] && (
-                    <div className="space-y-2 pl-7">
-                      {result.frameworks.slice(0, 6).map((framework, frameworkIndex) => (
-                        <div
-                          key={frameworkIndex}
-                          className="bg-slate-700/30 rounded-lg p-3 border border-slate-600/50"
-                        >
-                          <span className="text-slate-200 text-sm leading-relaxed">{framework}</span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                  </div>
+                  <div className="space-y-2 pl-7">
+                    {result.frameworks.slice(0, 6).map((framework, frameworkIndex) => (
+                      <div
+                        key={frameworkIndex}
+                        className="bg-slate-700/30 rounded-lg p-3 border border-slate-600/50"
+                      >
+                        <span className="text-slate-200 text-sm leading-relaxed">{framework}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               )}
 
               {/* Timelines & Predictions */}
               {result.timelines && result.timelines.length > 0 && (
                 <div className="space-y-3">
-                  <button
-                    onClick={() => toggleSection(result.id || index, 'timelines')}
-                    className="flex items-center space-x-2 w-full text-left hover:bg-slate-700/30 rounded-lg p-2 transition-colors"
-                  >
-                    {expandedSections[`${result.id || index}-timelines`] ? (
-                      <ChevronDown className="w-5 h-5 text-orange-400" />
-                    ) : (
-                      <ChevronRight className="w-5 h-5 text-orange-400" />
-                    )}
+                  <div className="flex items-center space-x-2">
                     <TrendingUp className="w-5 h-5 text-orange-400" />
                     <h5 className="text-md font-semibold text-white">Timelines & Predictions ({result.timelines.length})</h5>
-                  </button>
-                  {expandedSections[`${result.id || index}-timelines`] && (
-                    <div className="space-y-2 pl-7">
-                      {result.timelines.slice(0, 6).map((timeline, timelineIndex) => (
-                        <div
-                          key={timelineIndex}
-                          className="bg-slate-700/30 rounded-lg p-3 border-l-4 border-orange-500"
-                        >
-                          <span className="text-slate-200 text-sm leading-relaxed">{timeline}</span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                  </div>
+                  <div className="space-y-2 pl-7">
+                    {result.timelines.slice(0, 6).map((timeline, timelineIndex) => (
+                      <div
+                        key={timelineIndex}
+                        className="bg-slate-700/30 rounded-lg p-3 border-l-4 border-orange-500"
+                      >
+                        <span className="text-slate-200 text-sm leading-relaxed">{timeline}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               )}
 

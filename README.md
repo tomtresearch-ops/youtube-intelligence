@@ -1,212 +1,189 @@
-# Visual Intelligence System
+# YouTube Intelligence - Transform Screenshots into Searchable Knowledge
 
-Transform visual content into searchable intelligence. Upload screenshots of YouTube videos, whiteboards, charts, articles, or PDFs to extract and organize content for instant natural language search.
+A powerful AI-powered application that transforms iPhone screenshots into searchable, intelligent knowledge. Upload screenshots of YouTube videos, whiteboards, charts, or articles, and our AI extracts, summarizes, and organizes everything into your personal knowledge base.
 
-## 🚀 Features
+## ✨ Features
 
-### Track 1: YouTube Intelligence
-- **Screenshot to Video**: Upload iPhone screenshot of YouTube video → extract title/channel → find actual video → get full transcript → generate AI summary
-- **Smart Detection**: Automatically identifies YouTube content and matches to original videos
-- **Rich Analysis**: Extract key insights, topics, people mentioned, and actionable takeaways
+- **🎯 Intelligent Content Detection** - Automatically identifies YouTube videos, whiteboards, charts, and documents
+- **🧠 OBSESSIVE AI Extraction** - Comprehensive extraction of frameworks, numbers, people, timelines, and insights
+- **📱 iPhone Screenshot Support** - Optimized for mobile screenshots and photos
+- **🔍 Natural Language Search** - Search your knowledge base using conversational queries
+- **📊 Knowledge Analytics** - Track your learning progress and content processing
+- **⚡ Batch Processing** - Upload multiple screenshots for efficient processing
 
-### Track 2: Visual Content → Structured Data
-- **OCR Extraction**: Screenshots of whiteboards, charts, articles, PDFs → text extraction → structured data
-- **Content Understanding**: Extract frameworks, data points, key insights, and relationships
-- **Multiple Formats**: Handwritten notes, business charts, crypto analysis, meeting screenshots
+## 🚀 Quick Start
 
-### Unified Search
-- **Natural Language**: Search using phrases like "Show me AI tools from videos" or "Find crypto analysis from whiteboards"
-- **Semantic Search**: AI-powered understanding goes beyond keyword matching
-- **Content Types**: Filter by YouTube videos, visual content, or search across all
-- **Time Filters**: Find content from yesterday, last week, or specific time periods
+### Prerequisites
 
-### Modern Interface
-- **Mobile-First**: Optimized for iPhone screenshot uploads
-- **Batch Processing**: Handle 10+ screenshots at once
-- **Real-Time Status**: Live processing updates and cost tracking
-- **Clean Design**: Fast, intuitive interface for daily use
+- Node.js 18+ 
+- Claude API key
+- YouTube Data API key
 
-## 🛠 Tech Stack
+### Installation
 
-- **Frontend**: Next.js 14, React 18, Tailwind CSS
-- **Backend**: Vercel API Routes, Node.js
-- **Database**: SQLite with FTS5 for full-text search
-- **AI**: Claude Vision API for image analysis, Claude Sonnet for text processing
-- **APIs**: YouTube Data API for video matching
-- **Deployment**: Vercel with automatic CI/CD
+1. **Clone the repository**
+   ```bash
+   git clone <your-repo-url>
+   cd youtube-intelligence
+   ```
 
-## 📋 Prerequisites
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-1. **Claude API Key**: Get from [Anthropic Console](https://console.anthropic.com/)
-2. **YouTube Data API Key**: Get from [Google Cloud Console](https://console.cloud.google.com/)
-3. **Vercel Account**: For deployment ([vercel.com](https://vercel.com))
+3. **Set up environment variables**
+   Create a `.env.local` file in the root directory:
+   ```bash
+   # Claude API Key for AI analysis
+   CLAUDE_API_KEY=your_claude_api_key_here
+   
+   # YouTube API Key for video search and metadata
+   YOUTUBE_API_KEY=your_youtube_api_key_here
+   
+   # Next.js environment
+   NODE_ENV=development
+   ```
 
-## 🔧 Installation & Setup
+4. **Start the development server**
+   ```bash
+   npm run dev
+   ```
 
-### 1. Clone and Install
-```bash
-git clone <your-repo-url>
-cd visual-intelligence-system
-npm install
+5. **Open your browser**
+   Navigate to [http://localhost:3000](http://localhost:3000)
+
+## 🔑 API Keys Setup
+
+### Claude API
+1. Visit [Anthropic Console](https://console.anthropic.com/)
+2. Create an account and generate an API key
+3. Add the key to your `.env.local` file
+
+### YouTube Data API
+1. Go to [Google Cloud Console](https://console.cloud.google.com/)
+2. Create a new project or select existing
+3. Enable YouTube Data API v3
+4. Create credentials (API key)
+5. Add the key to your `.env.local` file
+
+## 📱 How to Use
+
+1. **Capture Knowledge**
+   - Upload iPhone screenshots of YouTube videos, whiteboards, or articles
+   - Drag & drop or tap to select multiple files
+   - AI automatically detects content type and processes accordingly
+
+2. **AI Processing**
+   - For YouTube videos: Extracts title, channel, transcript, and generates comprehensive summaries
+   - For visual content: OCR extraction with intelligent analysis and insights
+   - OBSESSIVE extraction of frameworks, numbers, people, and key concepts
+
+3. **Search & Discover**
+   - Use natural language to search your knowledge base
+   - Find specific insights, frameworks, or content
+   - Browse by content type or processing date
+
+4. **Knowledge Analytics**
+   - Track your learning progress
+   - Monitor processing costs and confidence scores
+   - View content type breakdowns
+
+## 🏗️ Architecture
+
+- **Frontend**: Next.js 14 with React 18
+- **Styling**: Tailwind CSS with custom dark theme
+- **AI Processing**: Claude 3.5 Sonnet for content analysis
+- **Video Processing**: YouTube Data API for metadata extraction
+- **Database**: SQLite for local storage and search indexing
+- **Deployment**: Vercel-ready configuration
+
+## 🎨 UI Features
+
+- **Dark Theme**: Sophisticated dark interface with purple/blue gradients
+- **Responsive Design**: Optimized for desktop and mobile devices
+- **Modern Components**: Polished cards, buttons, and interactive elements
+- **Smooth Animations**: Subtle transitions and hover effects
+- **Intuitive Navigation**: Clear tabs for Capture, Library, and Stats
+
+## 🔧 Development
+
+### Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run vercel-build` - Build for Vercel deployment
+
+### Project Structure
+
+```
+youtube-intelligence/
+├── app/                    # Next.js app directory
+│   ├── components/        # React components
+│   ├── globals.css        # Global styles
+│   ├── layout.js          # Root layout
+│   └── page.js            # Main page
+├── api/                   # API routes
+│   ├── process.js         # Content processing
+│   ├── search.js          # Search functionality
+│   └── batch.js           # Batch processing
+├── public/                # Static assets
+└── package.json           # Dependencies and scripts
 ```
 
-### 2. Environment Variables
-Create environment variables in Vercel dashboard:
+## 🚀 Deployment
 
-```bash
-# Required API Keys
-CLAUDE_API_KEY=your_claude_api_key_here
-YOUTUBE_API_KEY=your_youtube_api_key_here
-```
+### Vercel (Recommended)
 
-### 3. Local Development
-```bash
-npm run dev
-```
-Open [http://localhost:3000](http://localhost:3000)
+1. Push your code to GitHub
+2. Connect your repository to Vercel
+3. Add environment variables in Vercel dashboard
+4. Deploy automatically on every push
 
-### 4. Deploy to Vercel
-```bash
-# Install Vercel CLI
-npm i -g vercel
+### Manual Deployment
 
-# Deploy
-vercel --prod
-```
+1. Build the application: `npm run build`
+2. Start production server: `npm run start`
+3. Configure your hosting provider
 
-## 🎯 Usage Guide
+## 📈 Performance
 
-### Upload Screenshots
-1. **Single Upload**: Drag & drop or click to select images
-2. **Batch Upload**: Select multiple files (up to 50 at once)
-3. **Mobile**: Use camera or gallery directly from iPhone
-4. **Supported**: JPEG, PNG, WebP up to 10MB each
-
-### Processing Types
-
-**YouTube Videos**:
-- Screenshot any YouTube video page
-- AI detects video information and finds original
-- Extracts full transcript and generates summary
-- Cost: ~$0.08 per screenshot
-
-**Visual Content**:
-- Whiteboards, charts, meeting notes, articles
-- OCR extraction with AI enhancement
-- Structured data with key insights
-- Cost: ~$0.08 per screenshot
-
-### Search Your Content
-- **Natural Language**: "Show me videos about AI tools"
-- **Content Filter**: "crypto analysis whiteboards"
-- **Time-based**: "meeting notes from yesterday"
-- **People/Companies**: "videos mentioning OpenAI"
-
-## 📊 API Reference
-
-### Process Single File
-```bash
-POST /api/process
-{
-  "filename": "screenshot.jpg",
-  "imageBase64": "base64_encoded_image"
-}
-```
-
-### Batch Processing
-```bash
-POST /api/batch
-{
-  "files": [
-    {
-      "filename": "file1.jpg",
-      "imageBase64": "base64_data"
-    }
-  ]
-}
-
-GET /api/batch?batchId=abc123
-```
-
-### Search Content
-```bash
-POST /api/search
-{
-  "query": "AI tools from videos",
-  "limit": 20
-}
-```
-
-## 💰 Cost Structure
-
-- **Claude Vision**: $0.08 per image analysis
-- **YouTube API**: Free (quota: 10,000 requests/day)
-- **Vercel Hosting**: Free tier available
-- **Estimated**: ~$8 for 100 screenshots/month
-
-## 🔒 Security & Privacy
-
-- **No Image Storage**: Images processed and discarded immediately
-- **Local Database**: SQLite in Vercel's temporary storage
-- **API Keys**: Securely stored in Vercel environment
-- **CORS**: Configured for security
-
-## 🚀 Performance
-
-- **Processing Speed**: 15-30 seconds per image
-- **Batch Processing**: 3 files processed simultaneously
-- **Search Speed**: Sub-second full-text search
-- **Mobile Optimized**: Fast uploads from iPhone
-
-## 🛣 Roadmap
-
-- [ ] **Advanced OCR**: Tesseract.js integration for offline processing
-- [ ] **Video Summaries**: Direct YouTube video analysis
-- [ ] **Export Features**: PDF reports, data export
-- [ ] **Team Collaboration**: Shared workspaces
-- [ ] **Mobile App**: Native iOS/Android apps
-- [ ] **Integrations**: Notion, Obsidian, Roam Research
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-**"Processing Failed"**
-- Check image size (max 10MB)
-- Verify image format (JPEG/PNG/WebP)
-- Ensure clear, readable content
-
-**"Video Not Found"**
-- YouTube title/channel might be unclear in screenshot
-- Try different screenshot with clearer text
-- System will fall back to OCR extraction
-
-**"Search Returns No Results"**
-- Process more content first
-- Try broader search terms
-- Check for typos in search query
-
-### Debug Mode
-Set `NODE_ENV=development` for detailed logs.
-
-## 📝 License
-
-MIT License - see LICENSE file for details.
+- **Processing Speed**: Optimized batch processing with configurable delays
+- **API Efficiency**: Smart caching and error handling
+- **Search Performance**: Full-text search indexing for fast queries
+- **Cost Optimization**: Batch processing to minimize API calls
 
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open Pull Request
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
 
-## 📞 Support
+## 📄 License
 
-- **Issues**: GitHub Issues
-- **Documentation**: This README
-- **API Questions**: Check API reference above
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🆘 Support
+
+If you encounter any issues:
+
+1. Check the console for error messages
+2. Verify your API keys are correct
+3. Ensure all dependencies are installed
+4. Check the browser's network tab for API failures
+
+## 🔮 Future Enhancements
+
+- [ ] Multi-language support
+- [ ] Advanced filtering and categorization
+- [ ] Export functionality (PDF, Markdown)
+- [ ] Collaborative knowledge sharing
+- [ ] Mobile app development
+- [ ] Integration with note-taking apps
 
 ---
 
-**Built for productivity enthusiasts who capture 100-200 visual insights monthly and want them instantly searchable rather than lost in camera roll chaos.**
+**Transform your screenshots into searchable knowledge today! 🚀**

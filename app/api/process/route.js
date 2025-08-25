@@ -671,35 +671,32 @@ ${content.substring(0, 8000)}
 EXTRACTION MANDATE - Extract and organize EVERY specific detail with RICH CONTEXT:
 
 FRAMEWORKS & SYSTEMS:
-- If ANY framework is mentioned (like "FACE RIPS", "MAP-MAD"), extract EVERY component with detailed explanation
-- Break down acronyms letter by letter: F=Freedom (loss of freedom due to AI surveillance), A=Accountability (lack of accountability for leaders), etc.
-- Extract step-by-step processes or methodologies mentioned with full context
+- If ANY framework is mentioned (like "FACE RIPS"), extract EVERY component with detailed explanation
+- Break down acronyms letter by letter with full context
+- Extract step-by-step processes or methodologies mentioned
 
 TIMELINES & PREDICTIONS:
 - Extract EVERY specific date, year, timeframe mentioned with detailed reasoning
-- Capture EVERY prediction with timeline and supporting logic: "X will happen by Y year because Z"
-- Extract specific time periods with context: "next 15 years of challenges due to AI race"
+- Capture EVERY prediction with timeline and supporting logic
+- Extract specific time periods with context
 
 TOOLS & RESOURCES:
 - Extract EVERY tool, platform, or resource mentioned with detailed capabilities
 - Capture WHY it's great for X use case with specific examples
-- Extract best use cases and specific capabilities mentioned with real-world applications
-- Capture rankings or comparisons between tools with reasoning
+- Extract best use cases and specific capabilities mentioned
 
 NUMBERS & DATA:
-- Extract EVERY specific number: dollar amounts, percentages, quantities with full context
-- Capture context: "$2.71 trillion on war in 2024", "15 years of challenges", "90% job displacement"
-- Extract statistics, metrics, and measurable predictions with supporting evidence
+- Extract EVERY specific number with full context and implications
+- Capture statistics, metrics, and measurable predictions with supporting evidence
 
 JOBS & INDUSTRIES:
 - Extract EVERY specific job, role, or industry mentioned with detailed predictions
-- Capture predictions about job displacement: "X jobs will be replaced by Y year because of Z technology"
-- Extract specific industries that will be affected with timeline and reasoning
+- Capture predictions about job displacement with timeline and reasoning
+- Extract specific industries that will be affected with full context
 
 PEOPLE & ENTITIES:
 - Extract EVERY person, company, book, or organization mentioned with their role and relevance
 - Capture specific examples or case studies mentioned with full context
-- Extract their specific contributions or relevance to the content
 
 Return structured JSON that organizes this information clearly with RICH DETAIL:
 
@@ -827,6 +824,8 @@ EXTRACTION RULES:
 
 Return ONLY valid JSON with no markdown formatting.`;
 
+  console.log('Calling Claude API with key:', CLAUDE_API_KEY ? 'Present' : 'Missing');
+  
   const response = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: {
@@ -836,13 +835,18 @@ Return ONLY valid JSON with no markdown formatting.`;
     },
     body: JSON.stringify({
       model: 'claude-3-5-sonnet-20241022',
-      max_tokens: 8000, // Increased from 4000 to allow for detailed analysis
+      max_tokens: 4000, // Reduced back to 4000 for now
       messages: [{
         role: 'user',
         content: analysisPrompt
       }]
     })
   });
+  
+  if (!response.ok) {
+    console.error('Claude API response not ok:', response.status, response.statusText);
+    throw new Error(`Claude API failed: ${response.status} ${response.statusText}`);
+  }
   
   const data = await response.json();
   console.log('Claude analysis response:', data);

@@ -1,4 +1,4 @@
-// Visual Intelligence Processor - Enhanced Vercel API Route
+// Visual Intelligence Processor - Enhanced Vercel API Route with OBSESSIVE Extraction
 import sqlite3 from 'sqlite3';
 import { open } from 'sqlite';
 
@@ -113,7 +113,7 @@ async function detectContentType(imageBase64) {
   }
 }
 
-// Extract text content using OCR and AI analysis
+// Extract text content using OCR and AI analysis with OBSESSIVE extraction
 async function extractTextContent(imageBase64) {
   const response = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
@@ -124,7 +124,7 @@ async function extractTextContent(imageBase64) {
     },
     body: JSON.stringify({
       model: 'claude-3-5-sonnet-20241022',
-      max_tokens: 3000,
+      max_tokens: 4000,
       messages: [{
         role: 'user',
         content: [
@@ -138,25 +138,121 @@ async function extractTextContent(imageBase64) {
           },
           {
             type: 'text',
-            text: `Extract and analyze all text content from this image. Return JSON with:
-            {
-              "extracted_text": "all visible text transcribed accurately",
-              "title": "inferred title or main topic",
-              "content_type": "whiteboard|chart|article|document|meeting_notes|other",
-              "key_insights": ["insight1", "insight2", ...],
-              "topics": ["topic1", "topic2", ...],
-              "people_mentioned": ["person1", "person2", ...],
-              "data_points": ["data1", "data2", ...], // for charts/graphs
-              "frameworks": ["framework1", ...], // for business content
-              "summary": "2-3 sentence summary of the content"
-            }
-            
-            Focus on:
-            - Accurate text transcription
-            - Key insights and takeaways
-            - Important data points or metrics
-            - Business frameworks or methodologies
-            - People, companies, or tools mentioned`
+            text: `You are an obsessive intelligence extraction specialist. Your ONLY job is to find and extract EVERY specific detail, framework, number, name, and concept from this image. Miss NOTHING.
+
+CRITICAL EXTRACTION MANDATE:
+- Find EVERY named framework, system, acronym, or model (like "FACE RIPS", "MAP-MAD", etc.)
+- Extract EVERY number, date, percentage, dollar amount, timeline (2026, 2027, $2.71 trillion, etc.)
+- List EVERY person, company, book, tool mentioned by name
+- Document EVERY process, method, or step-by-step explanation
+- Capture EVERY prediction, forecast, or timeline estimate
+
+Extract with OBSESSIVE detail and return JSON with:
+
+{
+    "core_thesis": "Single sentence capturing the main argument or key insight",
+    
+    "named_frameworks_extracted": [
+        "EVERY framework mentioned by name with complete breakdown of all components",
+        "Any acronym or system (like FACE RIPS, MAP-MAD) with each letter/part explained",
+        "Models or theories referenced with full details"
+    ],
+    
+    "all_numbers_and_data": [
+        "EVERY specific number: dollar amounts, percentages, years, quantities with full context",
+        "All timelines and dates mentioned: 2026, 2027, specific timeframes",
+        "Financial figures: trillion dollar amounts, budget numbers, costs",
+        "Statistics and metrics: view counts, percentages, rates"
+    ],
+    
+    "extracted_intelligence": {
+        "specific_methods": [
+            "Method/approach described with complete details",
+            "Process explained with all steps and context"
+        ],
+        "tools_and_resources": [
+            "Tool/platform mentioned: what it does and specific capabilities",
+            "Resource referenced: full details and context provided"
+        ],
+        "concepts_explained": [
+            "Complex idea broken down with examples",
+            "Theory or principle with real-world applications described"
+        ]
+    },
+    
+    "detailed_breakdown": {
+        "argument_structure": "How the speaker builds their case from A to B to C",
+        "supporting_evidence": [
+            "Evidence type 1: specific examples and data points",
+            "Proof point 2: how it supports the main thesis"
+        ],
+        "methodology_explained": [
+            "Step-by-step process described in the content",
+            "Approach or system outlined with implementation details"
+        ]
+    },
+    
+    "critical_information": {
+        "contrarian_positions": [
+            "Surprising viewpoint that challenges conventional thinking",
+            "Unusual perspective with supporting reasoning provided"
+        ],
+        "important_distinctions": [
+            "Key differences between concept A and concept B explained",
+            "Clarification of commonly confused ideas"
+        ],
+        "notable_claims": [
+            "Significant assertion made with supporting context",
+            "Important statement with implications explained"
+        ]
+    },
+    
+    "entities_and_references": {
+        "people_mentioned": ["Name: role and specific relevance to content"],
+        "companies_technologies": ["Company/tech: what they do and why mentioned"],
+        "books_resources": ["Resource: key relevance and takeaway"],
+        "specific_examples": ["Real example: what happened and why it matters"]
+    },
+    
+    "intelligence_synthesis": {
+        "connections_made": [
+            "How concept A relates to trend B",
+            "Why insight X matters for understanding Y"
+        ],
+        "implications_analysis": [
+            "What this means for industry/field Z",
+            "How this changes the landscape of topic A"
+        ],
+        "future_predictions": [
+            "Specific prediction with timeline and reasoning",
+            "Expected outcome with supporting logic"
+        ]
+    },
+    
+    "consumption_value": {
+        "why_this_matters": "Clear explanation of why this content is worth your time",
+        "key_competitive_advantage": "What you gain by understanding this information",
+        "decision_support": "How this intelligence helps with specific decisions you might face"
+    },
+    
+    "executive_distillation": {
+        "tldr": "Most important takeaway in one sentence",
+        "action_priority": "Single highest-value action from this content", 
+        "remember_this": "Key insight you'll want to recall weeks later"
+    }
+}
+
+OBSESSIVE EXTRACTION REQUIREMENTS:
+- SCAN the image for ANY framework mentioned by name (FACE RIPS, MAP-MAD, etc.) - extract EVERY component
+- FIND every single number, date, dollar amount, percentage - capture with full context  
+- LOCATE every person name, company name, book title, tool name - list with relevance
+- EXTRACT every process described step-by-step
+- CAPTURE every prediction with specific timeline
+- If a framework is mentioned, extract ALL its components and explanations
+- If numbers are given, capture the EXACT figures and what they refer to
+- Miss NOTHING - be obsessively thorough
+
+Return ONLY valid JSON with no markdown formatting.`
           }
         ]
       }]
@@ -168,13 +264,20 @@ async function extractTextContent(imageBase64) {
     return JSON.parse(data.content[0].text);
   } catch (e) {
     return {
-      extracted_text: 'Failed to extract text',
-      title: 'Text extraction failed',
-      content_type: 'other',
-      key_insights: [],
-      topics: [],
-      people_mentioned: [],
-      summary: 'Could not process image content'
+      core_thesis: 'Failed to extract text',
+      named_frameworks_extracted: [],
+      all_numbers_and_data: [],
+      extracted_intelligence: {},
+      detailed_breakdown: {},
+      critical_information: {},
+      entities_and_references: {},
+      intelligence_synthesis: {},
+      consumption_value: {},
+      executive_distillation: {
+        tldr: 'Text extraction failed',
+        action_priority: 'Review image manually',
+        remember_this: 'Processing error occurred'
+      }
     };
   }
 }
@@ -230,37 +333,247 @@ async function getYouTubeTranscript(videoId) {
   }
 }
 
-// Generate enhanced analysis using Claude
+// Generate enhanced analysis using Claude with OBSESSIVE extraction
 async function generateAnalysis(content, contentType, metadata = {}) {
   const isYoutube = contentType === 'youtube';
   const analysisPrompt = isYoutube 
-    ? `Analyze this YouTube video transcript and create an enhanced summary.
+    ? `You are an obsessive intelligence extraction specialist. Your ONLY job is to find and extract EVERY specific detail, framework, number, name, and concept from this transcript. Miss NOTHING.
 
 Video: "${metadata.title}" by ${metadata.channel}
 
 Transcript:
 ${content.substring(0, 8000)}
 
-Return JSON with:
-- summary: 2-3 sentence overview
-- key_insights: array of 3-5 main takeaways
-- topics: array of relevant topics/tags
-- people_mentioned: array of people/companies mentioned
+CRITICAL EXTRACTION MANDATE:
+- Find EVERY named framework, system, acronym, or model (like "FACE RIPS", "MAP-MAD", etc.)
+- Extract EVERY number, date, percentage, dollar amount, timeline (2026, 2027, $2.71 trillion, etc.)
+- List EVERY person, company, book, tool mentioned by name
+- Document EVERY process, method, or step-by-step explanation
+- Capture EVERY prediction, forecast, or timeline estimate
 
-Focus on actionable insights and key information.`
-    : `Analyze this extracted visual content and enhance the analysis.
+Extract with OBSESSIVE detail and return JSON with:
+
+{
+    "core_thesis": "Single sentence capturing the main argument or key insight",
+    
+    "named_frameworks_extracted": [
+        "EVERY framework mentioned by name with complete breakdown of all components",
+        "Any acronym or system (like FACE RIPS, MAP-MAD) with each letter/part explained",
+        "Models or theories referenced with full details"
+    ],
+    
+    "all_numbers_and_data": [
+        "EVERY specific number: dollar amounts, percentages, years, quantities with full context",
+        "All timelines and dates mentioned: 2026, 2027, specific timeframes",
+        "Financial figures: trillion dollar amounts, budget numbers, costs",
+        "Statistics and metrics: view counts, percentages, rates"
+    ],
+    
+    "extracted_intelligence": {
+        "specific_methods": [
+            "Method/approach described with complete details",
+            "Process explained with all steps and context"
+        ],
+        "tools_and_resources": [
+            "Tool/platform mentioned: what it does and specific capabilities",
+            "Resource referenced: full details and context provided"
+        ],
+        "concepts_explained": [
+            "Complex idea broken down with examples",
+            "Theory or principle with real-world applications described"
+        ]
+    },
+    
+    "detailed_breakdown": {
+        "argument_structure": "How the speaker builds their case from A to B to C",
+        "supporting_evidence": [
+            "Evidence type 1: specific examples and data points",
+            "Proof point 2: how it supports the main thesis"
+        ],
+        "methodology_explained": [
+            "Step-by-step process described in the content",
+            "Approach or system outlined with implementation details"
+        ]
+    },
+    
+    "critical_information": {
+        "contrarian_positions": [
+            "Surprising viewpoint that challenges conventional thinking",
+            "Unusual perspective with supporting reasoning provided"
+        ],
+        "important_distinctions": [
+            "Key differences between concept A and concept B explained",
+            "Clarification of commonly confused ideas"
+        ],
+        "notable_claims": [
+            "Significant assertion made with supporting context",
+            "Important statement with implications explained"
+        ]
+    },
+    
+    "entities_and_references": {
+        "people_mentioned": ["Name: role and specific relevance to content"],
+        "companies_technologies": ["Company/tech: what they do and why mentioned"],
+        "books_resources": ["Resource: key relevance and takeaway"],
+        "specific_examples": ["Real example: what happened and why it matters"]
+    },
+    
+    "intelligence_synthesis": {
+        "connections_made": [
+            "How concept A relates to trend B",
+            "Why insight X matters for understanding Y"
+        ],
+        "implications_analysis": [
+            "What this means for industry/field Z",
+            "How this changes the landscape of topic A"
+        ],
+        "future_predictions": [
+            "Specific prediction with timeline and reasoning",
+            "Expected outcome with supporting logic"
+        ]
+    },
+    
+    "consumption_value": {
+        "why_this_matters": "Clear explanation of why this content is worth your time",
+        "key_competitive_advantage": "What you gain by understanding this information",
+        "decision_support": "How this intelligence helps with specific decisions you might face"
+    },
+    
+    "executive_distillation": {
+        "tldr": "Most important takeaway in one sentence",
+        "action_priority": "Single highest-value action from this content", 
+        "remember_this": "Key insight you'll want to recall weeks later"
+    }
+}
+
+OBSESSIVE EXTRACTION REQUIREMENTS:
+- SCAN the transcript for ANY framework mentioned by name (FACE RIPS, MAP-MAD, etc.) - extract EVERY component
+- FIND every single number, date, dollar amount, percentage - capture with full context  
+- LOCATE every person name, company name, book title, tool name - list with relevance
+- EXTRACT every process described step-by-step
+- CAPTURE every prediction with specific timeline
+- If a framework is mentioned, extract ALL its components and explanations
+- If numbers are given, capture the EXACT figures and what they refer to
+- Miss NOTHING - be obsessively thorough
+
+Return ONLY valid JSON with no markdown formatting.`
+    : `You are an obsessive intelligence extraction specialist. Your ONLY job is to find and extract EVERY specific detail, framework, number, name, and concept from this content. Miss NOTHING.
 
 Content: ${content.substring(0, 4000)}
 
-Return JSON with:
-- summary: 2-3 sentence enhanced summary
-- key_insights: array of 3-5 main insights (enhance existing ones)
-- topics: array of relevant topics/tags (enhance existing ones)
-- people_mentioned: array of people/companies mentioned
-- frameworks: array of business frameworks or methodologies mentioned
-- action_items: array of actionable takeaways
+CRITICAL EXTRACTION MANDATE:
+- Find EVERY named framework, system, acronym, or model (like "FACE RIPS", "MAP-MAD", etc.)
+- Extract EVERY number, date, percentage, dollar amount, timeline (2026, 2027, $2.71 trillion, etc.)
+- List EVERY person, company, book, tool mentioned by name
+- Document EVERY process, method, or step-by-step explanation
+- Capture EVERY prediction, forecast, or timeline estimate
 
-Focus on extracting maximum value and searchable insights.`;
+Extract with OBSESSIVE detail and return JSON with:
+
+{
+    "core_thesis": "Single sentence capturing the main argument or key insight",
+    
+    "named_frameworks_extracted": [
+        "EVERY framework mentioned by name with complete breakdown of all components",
+        "Any acronym or system (like FACE RIPS, MAP-MAD) with each letter/part explained",
+        "Models or theories referenced with full details"
+    ],
+    
+    "all_numbers_and_data": [
+        "EVERY specific number: dollar amounts, percentages, years, quantities with full context",
+        "All timelines and dates mentioned: 2026, 2027, specific timeframes",
+        "Financial figures: trillion dollar amounts, budget numbers, costs",
+        "Statistics and metrics: view counts, percentages, rates"
+    ],
+    
+    "extracted_intelligence": {
+        "specific_methods": [
+            "Method/approach described with complete details",
+            "Process explained with all steps and context"
+        ],
+        "tools_and_resources": [
+            "Tool/platform mentioned: what it does and specific capabilities",
+            "Resource referenced: full details and context provided"
+        ],
+        "concepts_explained": [
+            "Complex idea broken down with examples",
+            "Theory or principle with real-world applications described"
+        ]
+    },
+    
+    "detailed_breakdown": {
+        "argument_structure": "How the speaker builds their case from A to B to C",
+        "supporting_evidence": [
+            "Evidence type 1: specific examples and data points",
+            "Proof point 2: how it supports the main thesis"
+        ],
+        "methodology_explained": [
+            "Step-by-step process described in the content",
+            "Approach or system outlined with implementation details"
+        ]
+    },
+    
+    "critical_information": {
+        "contrarian_positions": [
+            "Surprising viewpoint that challenges conventional thinking",
+            "Unusual perspective with supporting reasoning provided"
+        ],
+        "important_distinctions": [
+            "Key differences between concept A and concept B explained",
+            "Clarification of commonly confused ideas"
+        ],
+        "notable_claims": [
+            "Significant assertion made with supporting context",
+            "Important statement with implications explained"
+        ]
+    },
+    
+    "entities_and_references": {
+        "people_mentioned": ["Name: role and specific relevance to content"],
+        "companies_technologies": ["Company/tech: what they do and why mentioned"],
+        "books_resources": ["Resource: key relevance and takeaway"],
+        "specific_examples": ["Real example: what happened and why it matters"]
+    },
+    
+    "intelligence_synthesis": {
+        "connections_made": [
+            "How concept A relates to trend B",
+            "Why insight X matters for understanding Y"
+        ],
+        "implications_analysis": [
+            "What this means for industry/field Z",
+            "How this changes the landscape of topic A"
+        ],
+        "future_predictions": [
+            "Specific prediction with timeline and reasoning",
+            "Expected outcome with supporting logic"
+        ]
+    },
+    
+    "consumption_value": {
+        "why_this_matters": "Clear explanation of why this content is worth your time",
+        "key_competitive_advantage": "What you gain by understanding this information",
+        "decision_support": "How this intelligence helps with specific decisions you might face"
+    },
+    
+    "executive_distillation": {
+        "tldr": "Most important takeaway in one sentence",
+        "action_priority": "Single highest-value action from this content", 
+        "remember_this": "Key insight you'll want to recall weeks later"
+    }
+}
+
+OBSESSIVE EXTRACTION REQUIREMENTS:
+- SCAN the content for ANY framework mentioned by name (FACE RIPS, MAP-MAD, etc.) - extract EVERY component
+- FIND every single number, date, dollar amount, percentage - capture with full context  
+- LOCATE every person name, company name, book title, tool name - list with relevance
+- EXTRACT every process described step-by-step
+- CAPTURE every prediction with specific timeline
+- If a framework is mentioned, extract ALL its components and explanations
+- If numbers are given, capture the EXACT figures and what they refer to
+- Miss NOTHING - be obsessively thorough
+
+Return ONLY valid JSON with no markdown formatting.`;
 
   const response = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
@@ -271,7 +584,7 @@ Focus on extracting maximum value and searchable insights.`;
     },
     body: JSON.stringify({
       model: 'claude-3-5-sonnet-20241022',
-      max_tokens: 2000,
+      max_tokens: 4000,
       messages: [{
         role: 'user',
         content: analysisPrompt
@@ -284,12 +597,20 @@ Focus on extracting maximum value and searchable insights.`;
     return JSON.parse(data.content[0].text);
   } catch (e) {
     return {
-      summary: 'Failed to generate enhanced analysis',
-      key_insights: [],
-      topics: [],
-      people_mentioned: [],
-      frameworks: [],
-      action_items: []
+      core_thesis: 'Failed to generate enhanced analysis',
+      named_frameworks_extracted: [],
+      all_numbers_and_data: [],
+      extracted_intelligence: {},
+      detailed_breakdown: {},
+      critical_information: {},
+      entities_and_references: {},
+      intelligence_synthesis: {},
+      consumption_value: {},
+      executive_distillation: {
+        tldr: 'Analysis generation failed',
+        action_priority: 'Review content manually',
+        remember_this: 'Processing error occurred'
+      }
     };
   }
 }
@@ -395,8 +716,8 @@ async function processScreenshot(filename, imageBase64) {
           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `, [
           filename, 'youtube', videoMatch.url, videoMatch.title, videoMatch.channel,
-          transcript, analysis.summary, JSON.stringify(analysis.key_insights),
-          JSON.stringify(analysis.topics), JSON.stringify(analysis.people_mentioned),
+          transcript, JSON.stringify(analysis), JSON.stringify(analysis.named_frameworks_extracted),
+          JSON.stringify(analysis.all_numbers_and_data), JSON.stringify(analysis.entities_and_references?.people_mentioned || []),
           videoMatch.confidence, processingCost, JSON.stringify(contentDetection)
         ]);
         
@@ -404,10 +725,10 @@ async function processScreenshot(filename, imageBase64) {
         await updateSearchIndex(db, insertResult.lastID, {
           title: videoMatch.title,
           channel: videoMatch.channel,
-          enhanced_summary: analysis.summary,
-          key_insights: JSON.stringify(analysis.key_insights),
-          topics: JSON.stringify(analysis.topics),
-          people_mentioned: JSON.stringify(analysis.people_mentioned),
+          enhanced_summary: analysis.core_thesis,
+          key_insights: JSON.stringify(analysis.named_frameworks_extracted),
+          topics: JSON.stringify(analysis.all_numbers_and_data),
+          people_mentioned: JSON.stringify(analysis.entities_and_references?.people_mentioned || []),
           raw_transcript: transcript
         });
         
@@ -424,7 +745,7 @@ async function processScreenshot(filename, imageBase64) {
       const analysis = await generateAnalysis(
         JSON.stringify(ocrResult), 
         'ocr', 
-        { title: ocrResult.title }
+        { title: ocrResult.core_thesis }
       );
       
       // Store in database
@@ -435,20 +756,20 @@ async function processScreenshot(filename, imageBase64) {
          processing_cost, metadata)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `, [
-        filename, 'ocr', ocrResult.title, ocrResult.extracted_text,
-        analysis.summary, JSON.stringify(analysis.key_insights),
-        JSON.stringify(analysis.topics), JSON.stringify(analysis.people_mentioned),
+        filename, 'ocr', ocrResult.core_thesis, JSON.stringify(ocrResult),
+        JSON.stringify(analysis), JSON.stringify(analysis.named_frameworks_extracted),
+        JSON.stringify(analysis.all_numbers_and_data), JSON.stringify(analysis.entities_and_references?.people_mentioned || []),
         contentDetection.confidence, processingCost, JSON.stringify(ocrResult)
       ]);
       
       // Update search index
       await updateSearchIndex(db, insertResult.lastID, {
-        title: ocrResult.title,
-        enhanced_summary: analysis.summary,
-        key_insights: JSON.stringify(analysis.key_insights),
-        topics: JSON.stringify(analysis.topics),
-        people_mentioned: JSON.stringify(analysis.people_mentioned),
-        extracted_text: ocrResult.extracted_text
+        title: ocrResult.core_thesis,
+        enhanced_summary: analysis.core_thesis,
+        key_insights: JSON.stringify(analysis.named_frameworks_extracted),
+        topics: JSON.stringify(analysis.all_numbers_and_data),
+        people_mentioned: JSON.stringify(analysis.entities_and_references?.people_mentioned || []),
+        extracted_text: JSON.stringify(ocrResult)
       });
       
       result.contentType = 'ocr';

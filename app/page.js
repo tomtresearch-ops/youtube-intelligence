@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { Upload, Search, FileImage, Youtube, FileText, Loader2, CheckCircle, AlertCircle, Brain, Zap, BarChart3 } from 'lucide-react'
 import UploadZone from './components/UploadZone'
 import SearchInterface from './components/SearchInterface'
@@ -12,6 +12,39 @@ export default function HomePage() {
   const [processingFiles, setProcessingFiles] = useState([])
   const [searchResults, setSearchResults] = useState([])
   const [isSearching, setIsSearching] = useState(false)
+  const [stats, setStats] = useState(null)
+  const [loadingStats, setLoadingStats] = useState(false)
+
+  // Fetch stats data
+  const fetchStats = useCallback(async () => {
+    setLoadingStats(true)
+    try {
+      const response = await fetch('/api/stats')
+      const data = await response.json()
+      setStats(data)
+    } catch (error) {
+      console.error('Failed to fetch stats:', error)
+      setStats({
+        overview: { totalKnowledge: 0, thisWeek: 0, avgConfidence: 0, totalCost: 0 },
+        contentTypes: { youtubeVideos: 0, otherContent: 0 },
+        performance: { avgProcessingTime: 0, highConfidenceRate: 0 }
+      })
+    } finally {
+      setLoadingStats(false)
+    }
+  }, [])
+
+  // Fetch stats when component mounts and when processing completes
+  useEffect(() => {
+    fetchStats()
+  }, [fetchStats])
+
+  // Refresh stats when processing completes
+  useEffect(() => {
+    if (processingFiles.some(f => f.status === 'completed')) {
+      fetchStats()
+    }
+  }, [processingFiles, fetchStats])
 
   const handleFilesSelected = useCallback(async (files) => {
     const newProcessingFiles = Array.from(files).map(file => ({
@@ -93,7 +126,7 @@ export default function HomePage() {
         body: JSON.stringify({ query })
       })
       const results = await response.json()
-      setSearchResults(results)
+      setSearchResults(results.results || [])
     } catch (error) {
       console.error('Search failed:', error)
     } finally {
@@ -116,7 +149,7 @@ export default function HomePage() {
             <div className="flex items-center space-x-2 text-sm text-slate-300">
               <div className="flex items-center space-x-1">
                 <CheckCircle className="w-4 h-4 text-green-400" />
-                <span>{processingFiles.filter(f => f.status === 'completed').length} processed</span>
+                <span>{stats?.overview?.totalKnowledge || 0} processed</span>
               </div>
             </div>
           </div>
@@ -196,41 +229,139 @@ export default function HomePage() {
               <h2 className="text-2xl font-bold text-white mb-2">Knowledge Stats</h2>
               <p className="text-slate-400">Your second brain analytics</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-slate-800/50 rounded-lg p-6 border border-slate-700/50">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-slate-400 text-sm">Total Knowledge</p>
-                    <p className="text-3xl font-bold text-white">0</p>
+            
+            {loadingStats ? (
+              <div className="flex justify-center">
+                <Loader2 className="w-8 h-8 text-purple-400 animate-spin" />
+              </div>
+            ) : (
+              <>
+                {/* Overview Cards */}
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                  <div className="bg-slate-800/50 rounded-lg p-6 border border-slate-700/50">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-slate-400 text-sm">Total Knowledge</p>
+                        <p className="text-3xl font-bold text-white">{stats?.overview?.totalKnowledge || 0}</p>
+                      </div>
+                      <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                        <Brain className="w-6 h-6 text-purple-400" />
+                      </div>
+                    </div>
                   </div>
-                  <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center">
-                    <Brain className="w-6 h-6 text-purple-400" />
+                  
+                  <div className="bg-slate-800/50 rounded-lg p-6 border border-slate-700/50">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-slate-400 text-sm">This Week</p>
+                        <p className="text-3xl font-bold text-white">{stats?.overview?.thisWeek || 0}</p>
+                      </div>
+                      <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                        <BarChart3 className="w-6 h-6 text-blue-400" />
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-slate-800/50 rounded-lg p-6 border border-slate-700/50">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-slate-400 text-sm">Avg Confidence</p>
+                        <p className="text-3xl font-bold text-white">{stats?.overview?.avgConfidence || 0}%</p>
+                      </div>
+                      <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center">
+                        <Zap className="w-6 h-6 text-green-400" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-slate-800/50 rounded-lg p-6 border border-slate-700/50">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-slate-400 text-sm">Total Cost</p>
+                        <p className="text-3xl font-bold text-white">${stats?.overview?.totalCost || 0}</p>
+                      </div>
+                      <div className="w-12 h-12 bg-yellow-500/20 rounded-lg flex items-center justify-center">
+                        <span className="text-yellow-400 text-xl">$</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="bg-slate-800/50 rounded-lg p-6 border border-slate-700/50">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-slate-400 text-sm">This Week</p>
-                    <p className="text-3xl font-bold text-white">0</p>
+
+                {/* Content Types and Performance */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="bg-slate-800/50 rounded-lg p-6 border border-slate-700/50">
+                    <h3 className="text-lg font-semibold text-white mb-4">Content Types</h3>
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-2">
+                          <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                          <span className="text-slate-300">YouTube Videos</span>
+                        </div>
+                        <span className="text-white font-semibold">{stats?.contentTypes?.youtubeVideos || 0}</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-2">
+                          <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                          <span className="text-slate-300">Other Content</span>
+                        </div>
+                        <span className="text-white font-semibold">{stats?.contentTypes?.otherContent || 0}</span>
+                      </div>
+                    </div>
                   </div>
-                  <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center">
-                    <BarChart3 className="w-6 h-6 text-blue-400" />
+                  
+                  <div className="bg-slate-800/50 rounded-lg p-6 border border-slate-700/50">
+                    <h3 className="text-lg font-semibold text-white mb-4">Performance</h3>
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-slate-300">Avg Processing Time</span>
+                        <span className="text-white font-semibold">{Math.round((stats?.performance?.avgProcessingTime || 0) / 1000)}s</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-slate-300">High Confidence Rate</span>
+                        <span className="text-white font-semibold">{stats?.performance?.highConfidenceRate || 0}%</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="bg-slate-800/50 rounded-lg p-6 border border-slate-700/50">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-slate-400 text-sm">Avg Confidence</p>
-                    <p className="text-3xl font-bold text-white">0%</p>
+
+                {/* Empty State or Recent Activity */}
+                {stats?.overview?.totalKnowledge === 0 ? (
+                  <div className="text-center py-12">
+                    <div className="w-16 h-16 bg-slate-700/50 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <Brain className="w-8 h-8 text-slate-400" />
+                    </div>
+                    <h3 className="text-lg font-medium text-white mb-2">No Knowledge Captured Yet</h3>
+                    <p className="text-slate-400 mb-6">Start uploading screenshots to see your analytics</p>
+                    <button
+                      onClick={() => setActiveTab('upload')}
+                      className="bg-gradient-to-r from-purple-500 to-blue-600 text-white font-medium px-6 py-3 rounded-lg hover:from-purple-600 hover:to-blue-700 transition-all duration-200"
+                    >
+                      Start Capturing Knowledge
+                    </button>
                   </div>
-                  <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center">
-                    <Zap className="w-6 h-6 text-green-400" />
+                ) : (
+                  <div className="bg-slate-800/50 rounded-lg p-6 border border-slate-700/50">
+                    <h3 className="text-lg font-semibold text-white mb-4">Recent Activity</h3>
+                    <div className="space-y-3">
+                      {stats?.recentActivity?.slice(0, 5).map((activity, index) => (
+                        <div key={index} className="flex items-center justify-between text-sm">
+                          <div className="flex items-center space-x-3">
+                            <div className={`w-2 h-2 rounded-full ${
+                              activity.type === 'youtube' ? 'bg-red-500' : 'bg-blue-500'
+                            }`}></div>
+                            <span className="text-slate-300 truncate max-w-xs">{activity.title}</span>
+                          </div>
+                          <div className="flex items-center space-x-4 text-slate-400">
+                            <span>{activity.confidence}%</span>
+                            <span>{new Date(activity.date).toLocaleDateString()}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              </div>
-            </div>
+                )}
+              </>
+            )}
           </div>
         )}
       </main>

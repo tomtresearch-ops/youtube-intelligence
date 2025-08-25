@@ -698,6 +698,8 @@ PEOPLE & ENTITIES:
 - Extract EVERY person, company, book, or organization mentioned with their role and relevance
 - Capture specific examples or case studies mentioned with full context
 
+CRITICAL: You MUST extract specific details from the transcript. If you see "15 years" mentioned, extract it. If you see "software developers" mentioned, extract it. If you see "FACE RIPS" mentioned, break it down. Do not return empty arrays - find and extract the actual content.
+
 Return structured JSON that organizes this information clearly with RICH DETAIL:
 
 {

@@ -174,15 +174,11 @@ export default function HomePage() {
       // Remove from processing files
       setProcessingFiles(prev => prev.filter(f => f.id !== file.id));
       
-      // Remove from search results - use current state, not stale closure
-      setSearchResults(prev => {
-        const newResults = prev.filter(f => f.filename !== file.name);
-        // Clear search if this was the only result
-        if (newResults.length === 0) {
-          setSearchQuery('');
-        }
-        return newResults;
-      });
+      // Remove from search results
+      setSearchResults(prev => prev.filter(f => f.filename !== file.name));
+      
+      // Clear search query if no results left
+      setSearchQuery('');
       
     } catch (error) {
       console.error('Error deleting file:', error);

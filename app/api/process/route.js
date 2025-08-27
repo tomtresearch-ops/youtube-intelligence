@@ -235,20 +235,27 @@ async function getYouTubeTranscript(videoId) {
 async function generateAnalysis(content, contentType, metadata = {}) {
   const isYoutube = contentType === 'youtube';
   const analysisPrompt = isYoutube 
-    ? `Analyze this YouTube video transcript and create an enhanced summary.
+    ? `Analyze this YouTube transcript and return a compact, content-driven outline.
 
 Video: "${metadata.title}" by ${metadata.channel}
 
-Transcript:
+Transcript (truncated):
 ${content.substring(0, 8000)}
 
-Return JSON with:
-- summary: 2-3 sentence overview
-- key_insights: array of 3-5 main takeaways
-- topics: array of relevant topics/tags
-- people_mentioned: array of people/companies mentioned
+Style rules (strict):
+- Use 3–6 natural, content-derived section headings (editorial tone). No generic buckets.
+- Include only what’s present; omit anything absent (no placeholders or “not mentioned”).
+- 1–3 bullets or 1 short paragraph per section; dedupe aggressively.
+- If it’s a listicle (“7 ways…”, “5 tools…”), preserve the exact count with 1–2 line blurbs per item.
+- If dated predictions exist, append a final "Timeline" block with bullets like "YYYY or YYYY–YYYY — claim"; otherwise omit.
 
-Focus on actionable insights and key information.`
+Return JSON:
+- summary: markdown outline following the rules above
+- key_insights: 3–7 crisp, non-redundant takeaways
+- topics: 5–12 tags
+- people_mentioned: entities referenced
+
+Hard constraints: No generic headings; no invented content; no meta filler.`
     : `Analyze this extracted visual content and enhance the analysis.
 
 Content: ${content.substring(0, 4000)}
@@ -273,6 +280,8 @@ Focus on extracting maximum value and searchable insights.`;
     body: JSON.stringify({
       model: 'claude-3-5-sonnet-20241022',
       max_tokens: 2000,
+      temperature: 0.2,
+      // Lower-temperature behavior via stricter instructions above
       messages: [{
         role: 'user',
         content: analysisPrompt

@@ -234,20 +234,27 @@ async function getYouTubeTranscript(videoId) {
 async function generateAnalysis(content, contentType, metadata = {}) {
   const isYoutube = contentType === 'youtube';
   const analysisPrompt = isYoutube 
-    ? `Analyze this YouTube video transcript and create an enhanced summary.
+    ? `Analyze this YouTube transcript and return a compact, content-driven outline.
 
 Video: "${metadata.title}" by ${metadata.channel}
 
-Transcript:
+Transcript (truncated):
 ${content.substring(0, 8000)}
 
-Return JSON with:
-- summary: 2-3 sentence overview
-- key_insights: array of 3-5 main takeaways
-- topics: array of relevant topics/tags
-- people_mentioned: array of people/companies mentioned
+Style rules (strict):
+- Use 3–6 natural, content-derived section headings (editorial tone). No generic buckets.
+- Include only what’s present; omit anything absent (no placeholders or “not mentioned”).
+- 1–3 bullets or 1 short paragraph per section; dedupe aggressively.
+- If it’s a listicle (“7 ways…”, “5 tools…”), preserve the exact count with 1–2 line blurbs per item.
+- If dated predictions exist, append a final "Timeline" block with bullets like "YYYY or YYYY–YYYY — claim"; otherwise omit.
 
-Focus on actionable insights and key information.`
+Return JSON:
+- summary: markdown outline following the rules above
+- key_insights: 3–7 crisp, non-redundant takeaways
+- topics: 5–12 tags
+- people_mentioned: entities referenced
+
+Hard constraints: No generic headings; no invented content; no meta filler.`
     : `Analyze this extracted visual content and enhance the analysis.
 
 Content: ${content.substring(0, 4000)}
@@ -272,19 +279,59 @@ Focus on extracting maximum value and searchable insights.`;
     body: JSON.stringify({
       model: 'claude-3-5-sonnet-20241022',
       max_tokens: 2000,
-      messages: [{
-        role: 'user',
-        content: analysisPrompt
-      }]
+      temperature: 0.2,
+      messages: [
+        {
+          role: 'user',
+          content: `You are to return ONLY valid JSON matching the requested schema. Do not include prose, explanations, or code fences. Forbidden headings: "Executive Summary", "Key Insights", "Frameworks & Systems", "Timelines & Predictions". If a field is absent in source content, omit it; do not write placeholders.`
+        },
+        {
+          role: 'user',
+          content: analysisPrompt
+        }
+      ]
     })
   });
   
   const data = await response.json();
   try {
-    return JSON.parse(data.content[0].text);
+    let text = data?.content?.[0]?.text || '';
+    text = text.replace(/^```[a-zA-Z]*\n?|```$/g, '');
+    const firstBrace = text.indexOf('{');
+    const lastBrace = text.lastIndexOf('}');
+    if (firstBrace !== -1 && lastBrace !== -1) {
+      text = text.slice(firstBrace, lastBrace + 1);
+    }
+    const parsed = JSON.parse(text);
+
+    if (parsed && typeof parsed.summary === 'string') {
+      const forbidden = [
+        'Executive Summary',
+        'Key Insights',
+        'Frameworks & Systems',
+        'Timelines & Predictions',
+        'Tools & Resources',
+        'Jobs & Industries',
+        'Actionable Items',
+        'Numbers & Data'
+      ];
+      const forbiddenRegex = new RegExp(
+        '^(?:\\d+\\.|[IVXLC]+\\.|[-*])?\\s*(?:' + forbidden.map(h => h.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')).join('|') + ')\\s*$',
+        'i'
+      );
+      const numberedOnly = /^(?:\d+\.|[IVXLC]+\.)\s*$/;
+      const lines = parsed.summary
+        .split('\n')
+        .filter(line => line.trim().length > 0)
+        .filter(line => !forbiddenRegex.test(line.trim()))
+        .filter(line => !numberedOnly.test(line.trim()));
+      parsed.summary = lines.join('\n');
+    }
+
+    return parsed;
   } catch (e) {
     return {
-      summary: 'Failed to generate enhanced analysis',
+      summary: 'Analysis unavailable for this item right now.',
       key_insights: [],
       topics: [],
       people_mentioned: [],

@@ -280,19 +280,45 @@ Focus on extracting maximum value and searchable insights.`;
       model: 'claude-3-5-sonnet-20241022',
       max_tokens: 2000,
       temperature: 0.2,
-      messages: [{
-        role: 'user',
-        content: analysisPrompt
-      }]
+      messages: [
+        {
+          role: 'user',
+          content: `You are to return ONLY valid JSON matching the requested schema. Do not include prose, explanations, or code fences. Forbidden headings: "Executive Summary", "Key Insights", "Frameworks & Systems", "Timelines & Predictions". If a field is absent in source content, omit it; do not write placeholders.`
+        },
+        {
+          role: 'user',
+          content: analysisPrompt
+        }
+      ]
     })
   });
   
   const data = await response.json();
   try {
-    return JSON.parse(data.content[0].text);
+    let text = data?.content?.[0]?.text || '';
+    text = text.replace(/^```[a-zA-Z]*\n?|```$/g, '');
+    const firstBrace = text.indexOf('{');
+    const lastBrace = text.lastIndexOf('}');
+    if (firstBrace !== -1 && lastBrace !== -1) {
+      text = text.slice(firstBrace, lastBrace + 1);
+    }
+    const parsed = JSON.parse(text);
+
+    if (parsed && typeof parsed.summary === 'string') {
+      const forbidden = [
+        'Executive Summary',
+        'Key Insights',
+        'Frameworks & Systems',
+        'Timelines & Predictions'
+      ];
+      const lines = parsed.summary.split('\n').filter(line => !forbidden.some(f => line.trim().startsWith(f)));
+      parsed.summary = lines.join('\n');
+    }
+
+    return parsed;
   } catch (e) {
     return {
-      summary: 'Failed to generate enhanced analysis',
+      summary: 'Analysis unavailable for this item right now.',
       key_insights: [],
       topics: [],
       people_mentioned: [],

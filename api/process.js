@@ -309,9 +309,22 @@ Focus on extracting maximum value and searchable insights.`;
         'Executive Summary',
         'Key Insights',
         'Frameworks & Systems',
-        'Timelines & Predictions'
+        'Timelines & Predictions',
+        'Tools & Resources',
+        'Jobs & Industries',
+        'Actionable Items',
+        'Numbers & Data'
       ];
-      const lines = parsed.summary.split('\n').filter(line => !forbidden.some(f => line.trim().startsWith(f)));
+      const forbiddenRegex = new RegExp(
+        '^(?:\\d+\\.|[IVXLC]+\\.|[-*])?\\s*(?:' + forbidden.map(h => h.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')).join('|') + ')\\s*$',
+        'i'
+      );
+      const numberedOnly = /^(?:\d+\.|[IVXLC]+\.)\s*$/;
+      const lines = parsed.summary
+        .split('\n')
+        .filter(line => line.trim().length > 0)
+        .filter(line => !forbiddenRegex.test(line.trim()))
+        .filter(line => !numberedOnly.test(line.trim()));
       parsed.summary = lines.join('\n');
     }
 
